@@ -66,6 +66,10 @@ class Sprite {
 		this.image = image
 		this.frames = frames
 		this.scale = scale
+		this.image.onload = () => {
+			this.width = (this.image.width / this.frames.max) * this.scale
+			this.height = this.image.height * scale
+		}
 	}
 
 	draw() {
@@ -103,36 +107,113 @@ const background = new Sprite({
 	image: backgroundImage,
 })
 
-const testBoundary = new Boundary({ position: { x: 400, y: 400 } })
+const movables = [background, ...boundaries]
 
-const movables = [background, testBoundary]
+function objectCollision({ player, object }) {
+	return (
+		player.position.x + player.width >= object.position.x &&
+		player.position.x <= object.position.x + object.width &&
+		player.position.y + player.height >= object.position.y &&
+		player.position.y <= object.position.y + object.height
+	)
+}
 
 function animate() {
 	window.requestAnimationFrame(animate)
 
 	background.draw()
-	testBoundary.draw()
-	/* boundaries.forEach((boundary) => {
+	boundaries.forEach((boundary) => {
 		boundary.draw()
-	}) */
+
+		// if (objectCollision({ player: player, object: boundary })) console.log('Colliding')
+	})
 	player.draw()
 
+	let moving = true
 	if (keys.ArrowUp.pressed && lastKey === 'ArrowUp') {
-		movables.forEach((moveable) => {
-			moveable.position.y += 4
-		})
+		playerImage.src = './assets/boy-up.png'
+
+		for (let i = 0; i < boundaries.length; i++) {
+			const boundary = boundaries[i]
+			if (
+				objectCollision({
+					player,
+					object: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y + 4 } },
+				})
+			) {
+				moving = false
+				console.log('Colliding')
+				break
+			}
+		}
+
+		if (moving)
+			movables.forEach((moveable) => {
+				moveable.position.y += 4
+			})
 	} else if (keys.ArrowLeft.pressed && lastKey === 'ArrowLeft') {
-		movables.forEach((moveable) => {
-			moveable.position.x += 4
-		})
+		playerImage.src = './assets/boy-left.png'
+
+		for (let i = 0; i < boundaries.length; i++) {
+			const boundary = boundaries[i]
+			if (
+				objectCollision({
+					player,
+					object: { ...boundary, position: { x: boundary.position.x + 4, y: boundary.position.y } },
+				})
+			) {
+				moving = false
+				console.log('Colliding')
+				break
+			}
+		}
+
+		if (moving)
+			movables.forEach((moveable) => {
+				moveable.position.x += 4
+			})
 	} else if (keys.ArrowDown.pressed && lastKey === 'ArrowDown') {
-		movables.forEach((moveable) => {
-			moveable.position.y -= 4
-		})
+		playerImage.src = './assets/boy-down.png'
+
+		for (let i = 0; i < boundaries.length; i++) {
+			const boundary = boundaries[i]
+			if (
+				objectCollision({
+					player,
+					object: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y - 4 } },
+				})
+			) {
+				moving = false
+				console.log('Colliding')
+				break
+			}
+		}
+
+		if (moving)
+			movables.forEach((moveable) => {
+				moveable.position.y -= 4
+			})
 	} else if (keys.ArrowRight.pressed && lastKey === 'ArrowRight') {
-		movables.forEach((moveable) => {
-			moveable.position.x -= 4
-		})
+		playerImage.src = './assets/boy-right.png'
+
+		for (let i = 0; i < boundaries.length; i++) {
+			const boundary = boundaries[i]
+			if (
+				objectCollision({
+					player,
+					object: { ...boundary, position: { x: boundary.position.x - 4, y: boundary.position.y } },
+				})
+			) {
+				moving = false
+				console.log('Colliding')
+				break
+			}
+		}
+
+		if (moving)
+			movables.forEach((moveable) => {
+				moveable.position.x -= 4
+			})
 	}
 }
 animate()
