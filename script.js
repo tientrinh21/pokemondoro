@@ -23,8 +23,8 @@ const keys = {
 	},
 }
 
-const image = new Image()
-image.src = './assets/Map.png'
+const backgroundImage = new Image()
+backgroundImage.src = './assets/Map.png'
 
 const playerImage = new Image()
 playerImage.src = './assets/boy-down.png'
@@ -69,8 +69,6 @@ class Sprite {
 	}
 
 	draw() {
-		c.drawImage(this.image, this.position.x, this.position.y)
-
 		c.drawImage(
 			this.image,
 			0,
@@ -78,20 +76,31 @@ class Sprite {
 			this.image.width / this.frames.max,
 			this.image.height,
 			this.position.x,
-			this.position.y(this.image.width / 4) * 2,
+			this.position.y,
+			(this.image.width / this.frames.max) * this.scale,
 			this.image.height * this.scale
 		)
 	}
 }
-/* canvas.width / 2 - this.image.width / 4,
-			canvas.height / 2 - this.image.height, */
+
+const player = new Sprite({
+	position: {
+		x: canvas.width / 2 - 128 / 4,
+		y: canvas.height / 2 - 48,
+	},
+	image: playerImage,
+	frames: {
+		max: 4,
+	},
+	scale: 2,
+})
 
 const background = new Sprite({
 	position: {
 		x: offset.x,
 		y: offset.y,
 	},
-	image: image,
+	image: backgroundImage,
 })
 
 const testBoundary = new Boundary({ position: { x: 400, y: 400 } })
@@ -106,6 +115,7 @@ function animate() {
 	/* boundaries.forEach((boundary) => {
 		boundary.draw()
 	}) */
+	player.draw()
 
 	if (keys.ArrowUp.pressed && lastKey === 'ArrowUp') {
 		movables.forEach((moveable) => {
