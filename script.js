@@ -61,15 +61,30 @@ collisionsMap.forEach((row, i) => {
 })
 
 class Sprite {
-	constructor({ position, velocity, image }) {
+	constructor({ position, velocity, image, frames = { max: 1 }, scale = 1 }) {
 		this.position = position
 		this.image = image
+		this.frames = frames
+		this.scale = scale
 	}
 
 	draw() {
 		c.drawImage(this.image, this.position.x, this.position.y)
+
+		c.drawImage(
+			this.image,
+			0,
+			0,
+			this.image.width / this.frames.max,
+			this.image.height,
+			this.position.x,
+			this.position.y(this.image.width / 4) * 2,
+			this.image.height * this.scale
+		)
 	}
 }
+/* canvas.width / 2 - this.image.width / 4,
+			canvas.height / 2 - this.image.height, */
 
 const background = new Sprite({
 	position: {
@@ -91,18 +106,6 @@ function animate() {
 	/* boundaries.forEach((boundary) => {
 		boundary.draw()
 	}) */
-
-	c.drawImage(
-		playerImage,
-		0,
-		0,
-		playerImage.width / 4,
-		playerImage.height,
-		canvas.width / 2 - playerImage.width / 4,
-		canvas.height / 2 - playerImage.height,
-		(playerImage.width / 4) * 2,
-		playerImage.height * 2
-	)
 
 	if (keys.ArrowUp.pressed && lastKey === 'ArrowUp') {
 		movables.forEach((moveable) => {
