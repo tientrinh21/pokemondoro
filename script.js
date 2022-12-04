@@ -8,6 +8,8 @@ const offset = {
 	y: -642,
 }
 
+const tileSize = 64
+
 const walkingPace = 4
 let movingPace = walkingPace
 
@@ -34,8 +36,11 @@ const characterSize = {
 const backgroundImage = new Image()
 backgroundImage.src = './assets/Map.png'
 
+const foregroundImage = new Image()
+foregroundImage.src = './assets/Foreground.png'
+
 const playerImage = new Image()
-playerImage.src = './assets/boy-debug.png'
+playerImage.src = './assets/boy-down.png'
 
 const collisionsMap = []
 for (let i = 0; i < collisions.length; i += 42) {
@@ -43,17 +48,17 @@ for (let i = 0; i < collisions.length; i += 42) {
 }
 
 class Boundary {
-	static width = 64
-	static height = 64
+	static width = tileSize
+	static height = tileSize
 
 	constructor({ position }) {
 		this.position = position
-		this.width = 64
-		this.height = 64
+		this.width = tileSize
+		this.height = tileSize
 	}
 
 	draw() {
-		c.fillStyle = 'rgba(255, 0, 0, 0.2)'
+		c.fillStyle = 'rgba(255, 0, 0, 0.0)'
 		c.fillRect(this.position.x, this.position.y, this.width, this.height)
 	}
 }
@@ -123,6 +128,15 @@ const background = new Sprite({
 	},
 	image: backgroundImage,
 })
+
+const foreground = new Sprite({
+	position: {
+		x: offset.x,
+		y: offset.y,
+	},
+	image: backgroundImage,
+})
+
 const testBoundary = new Boundary({ position: { x: 320, y: 320 } })
 // const testBoundary = new Boundary({ position: { x: 448, y: 320 + 64 } })
 
@@ -130,12 +144,15 @@ const movables = [background, ...boundaries, testBoundary]
 
 function objectCollision({ player, object }) {
 	return (
-		player.hitbox.x + player.width > object.position.x + movingPace && // left of wall
-		player.hitbox.x < object.position.x + object.width - movingPace && // right of  wall
+		player.hitbox.x + player.width > object.position.x && // left of wall
+		player.hitbox.x < object.position.x + object.width && // right of  wall
 		player.hitbox.y + player.height > object.position.y + movingPace && // bottom of wall
 		player.hitbox.y < object.position.y + object.height - movingPace // top off wall
 	)
 }
+
+let futureStep = { x: 0, y: 0 }
+let moving = true
 
 function animate() {
 	window.requestAnimationFrame(animate)
@@ -146,27 +163,46 @@ function animate() {
 	})
 	player.draw()
 
-	let moving = true
+	movables.forEach((moveable) => {
+		if (moving) {
+			moveable.position.x += Math.sign(futureStep.x) * movingPace
+			moveable.position.y += Math.sign(futureStep.y) * movingPace
+		}
+	})
+
+	futureStep.x -= Math.sign(futureStep.x) * movingPace
+	futureStep.y -= Math.sign(futureStep.y) * movingPace
+
 	if (keys.ArrowUp.pressed && lastKey === 'ArrowUp') {
+		playerImage.src = './assets/boy-up.png'
+
+		if (!futureStep.x && !futureStep.y) {
+			futureStep.y = tileSize
+			moving = true
+		}
+
 		for (let i = 0; i < boundaries.length; i++) {
 			const boundary = boundaries[i]
 			if (
 				objectCollision({
 					player: player,
-					object: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y + movingPace } },
+					object: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y + movingPace * 2 } },
 				})
 			) {
 				console.log('Colliding')
 				moving = false
+				// futureStep = { x: 0, y: 0 }
 				break
 			}
 		}
-
-		if (moving)
-			movables.forEach((moveable) => {
-				moveable.position.y += movingPace
-			})
 	} else if (keys.ArrowLeft.pressed && lastKey === 'ArrowLeft') {
+		playerImage.src = './assets/boy-left.png'
+
+		if (!futureStep.x && !futureStep.y) {
+			futureStep.x = tileSize
+			moving = true
+		}
+
 		for (let i = 0; i < boundaries.length; i++) {
 			const boundary = boundaries[i]
 			if (
@@ -180,12 +216,14 @@ function animate() {
 				break
 			}
 		}
-
-		if (moving)
-			movables.forEach((moveable) => {
-				moveable.position.x += movingPace
-			})
 	} else if (keys.ArrowDown.pressed && lastKey === 'ArrowDown') {
+		playerImage.src = './assets/boy-down.png'
+
+		if (!futureStep.x && !futureStep.y) {
+			futureStep.y = -tileSize
+			moving = true
+		}
+
 		for (let i = 0; i < boundaries.length; i++) {
 			const boundary = boundaries[i]
 			if (
@@ -199,12 +237,14 @@ function animate() {
 				break
 			}
 		}
-
-		if (moving)
-			movables.forEach((moveable) => {
-				moveable.position.y -= movingPace
-			})
 	} else if (keys.ArrowRight.pressed && lastKey === 'ArrowRight') {
+		playerImage.src = './assets/boy-right.png'
+
+		if (!futureStep.x && !futureStep.y) {
+			futureStep.x = -tileSize
+			moving = true
+		}
+
 		for (let i = 0; i < boundaries.length; i++) {
 			const boundary = boundaries[i]
 			if (
@@ -218,33 +258,28 @@ function animate() {
 				break
 			}
 		}
-
-		if (moving)
-			movables.forEach((moveable) => {
-				moveable.position.x -= movingPace
-			})
 	}
 }
 animate()
 
-let lastKey = ''
+let lastKey = 'ArrowUp'
 window.addEventListener('keydown', (e) => {
 	switch (e.key) {
 		case 'ArrowUp':
 			keys.ArrowUp.pressed = true
-			lastKey = 'ArrowUp'
+			if (!keys[lastKey].pressed) lastKey = 'ArrowUp'
 			break
 		case 'ArrowLeft':
 			keys.ArrowLeft.pressed = true
-			lastKey = 'ArrowLeft'
+			if (!keys[lastKey].pressed) lastKey = 'ArrowLeft'
 			break
 		case 'ArrowDown':
 			keys.ArrowDown.pressed = true
-			lastKey = 'ArrowDown'
+			if (!keys[lastKey].pressed) lastKey = 'ArrowDown'
 			break
 		case 'ArrowRight':
 			keys.ArrowRight.pressed = true
-			lastKey = 'ArrowRight'
+			if (!keys[lastKey].pressed) lastKey = 'ArrowRight'
 			break
 	}
 })
