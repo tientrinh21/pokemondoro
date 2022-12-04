@@ -4,9 +4,12 @@ canvas.width = 960
 canvas.height = 640
 
 const offset = {
-	x: -832,
-	y: -288,
+	x: -1216,
+	y: -642,
 }
+
+const walkingPace = 4
+let movingPace = walkingPace
 
 const keys = {
 	ArrowUp: {
@@ -23,15 +26,20 @@ const keys = {
 	},
 }
 
+const characterSize = {
+	width: 32,
+	height: 64,
+}
+
 const backgroundImage = new Image()
 backgroundImage.src = './assets/Map.png'
 
 const playerImage = new Image()
-playerImage.src = './assets/boy-down.png'
+playerImage.src = './assets/boy-debug.png'
 
 const collisionsMap = []
-for (let i = 0; i < collisions.length; i += 30) {
-	collisionsMap.push(collisions.slice(i, 30 + i))
+for (let i = 0; i < collisions.length; i += 42) {
+	collisionsMap.push(collisions.slice(i, 42 + i))
 }
 
 class Boundary {
@@ -45,7 +53,7 @@ class Boundary {
 	}
 
 	draw() {
-		c.fillStyle = 'red'
+		c.fillStyle = 'rgba(255, 0, 0, 0.2)'
 		c.fillRect(this.position.x, this.position.y, this.width, this.height)
 	}
 }
@@ -61,14 +69,22 @@ collisionsMap.forEach((row, i) => {
 })
 
 class Sprite {
-	constructor({ position, velocity, image, frames = { max: 1 }, scale = 1 }) {
+	constructor({ position, velocity, image, frames = { max: 1 }, scale = 1, isCharacter = false }) {
 		this.position = position
 		this.image = image
 		this.frames = frames
 		this.scale = scale
+		if (isCharacter) this.hitbox = { x: 0, y: 0 }
 		this.image.onload = () => {
 			this.width = (this.image.width / this.frames.max) * this.scale
-			this.height = this.image.height * scale
+			this.height = (this.image.height / 2) * scale
+			if (isCharacter) {
+				this.hitbox.x = this.position.x
+				this.hitbox.y = this.position.y + characterSize.height
+			}
+			/* console.log(this.width)
+			console.log(this.height)
+			console.log(this.hitbox) */
 		}
 	}
 
@@ -89,14 +105,15 @@ class Sprite {
 
 const player = new Sprite({
 	position: {
-		x: canvas.width / 2 - 128 / 4,
-		y: canvas.height / 2 - 48,
+		x: canvas.width / 2 - characterSize.width,
+		y: canvas.height / 2 - characterSize.height,
 	},
 	image: playerImage,
 	frames: {
 		max: 4,
 	},
 	scale: 2,
+	isCharacter: true,
 })
 
 const background = new Sprite({
@@ -106,15 +123,17 @@ const background = new Sprite({
 	},
 	image: backgroundImage,
 })
+const testBoundary = new Boundary({ position: { x: 320, y: 320 } })
+// const testBoundary = new Boundary({ position: { x: 448, y: 320 + 64 } })
 
-const movables = [background, ...boundaries]
+const movables = [background, ...boundaries, testBoundary]
 
 function objectCollision({ player, object }) {
 	return (
-		player.position.x + player.width >= object.position.x &&
-		player.position.x <= object.position.x + object.width &&
-		player.position.y + player.height >= object.position.y &&
-		player.position.y <= object.position.y + object.height
+		player.hitbox.x + player.width > object.position.x + movingPace && // left of wall
+		player.hitbox.x < object.position.x + object.width - movingPace && // right of  wall
+		player.hitbox.y + player.height > object.position.y + movingPace && // bottom of wall
+		player.hitbox.y < object.position.y + object.height - movingPace // top off wall
 	)
 }
 
@@ -124,95 +143,85 @@ function animate() {
 	background.draw()
 	boundaries.forEach((boundary) => {
 		boundary.draw()
-
-		// if (objectCollision({ player: player, object: boundary })) console.log('Colliding')
 	})
 	player.draw()
 
 	let moving = true
 	if (keys.ArrowUp.pressed && lastKey === 'ArrowUp') {
-		playerImage.src = './assets/boy-up.png'
-
 		for (let i = 0; i < boundaries.length; i++) {
 			const boundary = boundaries[i]
 			if (
 				objectCollision({
-					player,
-					object: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y + 4 } },
+					player: player,
+					object: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y + movingPace } },
 				})
 			) {
-				moving = false
 				console.log('Colliding')
+				moving = false
 				break
 			}
 		}
 
 		if (moving)
 			movables.forEach((moveable) => {
-				moveable.position.y += 4
+				moveable.position.y += movingPace
 			})
 	} else if (keys.ArrowLeft.pressed && lastKey === 'ArrowLeft') {
-		playerImage.src = './assets/boy-left.png'
-
 		for (let i = 0; i < boundaries.length; i++) {
 			const boundary = boundaries[i]
 			if (
 				objectCollision({
-					player,
-					object: { ...boundary, position: { x: boundary.position.x + 4, y: boundary.position.y } },
+					player: player,
+					object: { ...boundary, position: { x: boundary.position.x + movingPace, y: boundary.position.y } },
 				})
 			) {
-				moving = false
 				console.log('Colliding')
+				moving = false
 				break
 			}
 		}
 
 		if (moving)
 			movables.forEach((moveable) => {
-				moveable.position.x += 4
+				moveable.position.x += movingPace
 			})
 	} else if (keys.ArrowDown.pressed && lastKey === 'ArrowDown') {
-		playerImage.src = './assets/boy-down.png'
-
 		for (let i = 0; i < boundaries.length; i++) {
 			const boundary = boundaries[i]
 			if (
 				objectCollision({
-					player,
-					object: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y - 4 } },
+					player: player,
+					object: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y - movingPace } },
 				})
 			) {
-				moving = false
 				console.log('Colliding')
+				moving = false
 				break
 			}
 		}
 
 		if (moving)
 			movables.forEach((moveable) => {
-				moveable.position.y -= 4
+				moveable.position.y -= movingPace
 			})
 	} else if (keys.ArrowRight.pressed && lastKey === 'ArrowRight') {
-		playerImage.src = './assets/boy-right.png'
-
 		for (let i = 0; i < boundaries.length; i++) {
 			const boundary = boundaries[i]
 			if (
 				objectCollision({
-					player,
-					object: { ...boundary, position: { x: boundary.position.x - 4, y: boundary.position.y } },
+					player: player,
+					object: { ...boundary, position: { x: boundary.position.x - movingPace, y: boundary.position.y } },
 				})
 			) {
-				moving = false
 				console.log('Colliding')
+				moving = false
 				break
 			}
 		}
 
 		if (moving)
 			movables.forEach((moveable) => {
-				moveable.position.x -= 4
+				moveable.position.x -= movingPace
 			})
 	}
 }
