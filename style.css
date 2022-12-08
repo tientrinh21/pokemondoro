@@ -84,3 +84,16 @@ select {
 body {
 	background-color: black;
 }
+
+.game-container {
+	display: grid;
+	min-height: 100vh;
+	place-items: center;
+}
+
+#main-canvas {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}

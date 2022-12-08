@@ -1,15 +1,31 @@
 // Variables
 const canvas = document.querySelector('#main-canvas')
-const c = canvas.getContext('2d')
+const ctx = canvas.getContext('2d')
+
 canvas.width = 960
 canvas.height = 640
+
+let ratio = Math.min(window.innerWidth / 960, window.innerHeight / 640)
+
+canvas.style.width = canvas.width * ratio + 'px'
+canvas.style.height = canvas.height * ratio + 'px'
+
+window.addEventListener('resize', OnResizeCalled, false)
+
+function OnResizeCalled() {
+	ratio = Math.min(window.innerWidth / 960, window.innerHeight / 640)
+	canvas.style.width = canvas.width * ratio + 'px'
+	canvas.style.height = canvas.height * ratio + 'px'
+}
 
 const offset = {
 	x: -1216,
 	y: -642,
 }
 
-let movingPace = 4
+const walkingPace = 4
+const runningPace = 8
+let movingPace = walkingPace
 
 const keys = {
 	ArrowUp: {
@@ -31,11 +47,17 @@ const characterSize = {
 	height: 64,
 }
 
-const backgroundImage = new Image()
-backgroundImage.src = './assets/Map.png'
+const backgroundOutsideImage = new Image()
+backgroundOutsideImage.src = './assets/Map.png'
 
-const foregroundImage = new Image()
-foregroundImage.src = './assets/Foreground.png'
+const foregroundOutsideImage = new Image()
+foregroundOutsideImage.src = './assets/Foreground.png'
+
+const backgroundHealthCenterImage = new Image()
+backgroundHealthCenterImage.src = './assets/HealthCenter.png'
+
+const foregroundHealthCenterImage = new Image()
+foregroundHealthCenterImage.src = './assets/ForegroundHealthCenter.png'
 
 const playerUpImage = new Image()
 playerUpImage.src = './assets/boy-up.png'
@@ -74,7 +96,11 @@ const background = new Sprite({
 		x: offset.x,
 		y: offset.y,
 	},
-	image: backgroundImage,
+	image: backgroundOutsideImage,
+	sprites: {
+		outside: backgroundOutsideImage,
+		'health center': backgroundHealthCenterImage,
+	},
 })
 
 const foreground = new Sprite({
@@ -82,12 +108,26 @@ const foreground = new Sprite({
 		x: offset.x,
 		y: offset.y,
 	},
-	image: foregroundImage,
+	image: foregroundOutsideImage,
+	sprites: {
+		outside: foregroundOutsideImage,
+		'health center': foregroundHealthCenterImage,
+	},
 })
 
 const collisionsMap = []
-for (let i = 0; i < collisions.length; i += 42) {
-	collisionsMap.push(collisions.slice(i, 42 + i))
+function getCollisionsMap(map) {
+	collisionsMap.splice(0, collisionsMap.length)
+	for (let i = 0; i < collisions.get(map).length; i += 42) {
+		collisionsMap.push(collisions.get(map).slice(i, 42 + i))
+	}
+}
+getCollisionsMap('outside')
+// getCollisionsMap('health center')
+
+const doorsMap = []
+for (let i = 0; i < doors.get('outside').length; i += 42) {
+	doorsMap.push(doors.get('outside').slice(i, 42 + i))
 }
 
 const boundaries = []
@@ -100,7 +140,17 @@ collisionsMap.forEach((row, i) => {
 	})
 })
 
-const movables = [background, ...boundaries, foreground]
+const entrances = []
+doorsMap.forEach((row, i) => {
+	row.forEach((symbol, j) => {
+		if (symbol)
+			entrances.push(
+				new Boundary({ position: { x: j * Boundary.width + offset.x, y: i * Boundary.height + offset.y } })
+			)
+	})
+})
+
+const movables = [background, ...boundaries, ...entrances, foreground]
 
 function objectCollision({ player, object }) {
 	return (
@@ -115,6 +165,8 @@ function objectCollision({ player, object }) {
 let futureStep = { x: 0, y: 0 }
 let moving = true
 
+let isOutside = true
+
 function animate() {
 	window.requestAnimationFrame(animate)
 
@@ -124,6 +176,25 @@ function animate() {
 	})
 	player.draw()
 	foreground.draw()
+
+	entrances.forEach((entrance) => {
+		entrance.draw()
+	})
+
+	let isAtDoor = false
+	for (let i = 0; i < entrances.length; i++) {
+		const entrance = entrances[i]
+		if (
+			objectCollision({
+				player: player,
+				object: { ...entrance, position: { x: entrance.position.x, y: entrance.position.y } },
+			}) // predicting next move, movingPace * 2 to make sure player don't move on half way
+		) {
+			console.log('Step before door: ' + i)
+			if (!player.moving) isAtDoor = true
+			break
+		}
+	}
 
 	movables.forEach((moveable) => {
 		if (moving) {
@@ -141,6 +212,14 @@ function animate() {
 	if (keys.ArrowUp.pressed && lastKey === 'ArrowUp') {
 		player.moving = true
 		player.image = player.sprites.up
+
+		if (isAtDoor && isOutside) {
+			console.log('Switch map')
+			isOutside = !isOutside
+			background.image = background.sprites['health center']
+			foreground.image = foreground.sprites['health center']
+			getCollisionsMap('health center')
+		}
 
 		if (!futureStep.x && !futureStep.y) {
 			futureStep.y = tileSize
@@ -201,6 +280,14 @@ function animate() {
 				break
 			}
 		}
+
+		if (isAtDoor && !isOutside) {
+			console.log('Switch map')
+			isOutside = !isOutside
+			background.image = background.sprites['outside']
+			foreground.image = foreground.sprites['outside']
+			getCollisionsMap('outside')
+		}
 	} else if (keys.ArrowRight.pressed && lastKey === 'ArrowRight') {
 		player.moving = true
 		player.image = player.sprites.right
@@ -244,9 +331,6 @@ window.addEventListener('keydown', (e) => {
 		case 'ArrowRight':
 			keys.ArrowRight.pressed = true
 			if (!keys[lastKey].pressed && !futureStep.x && !futureStep.y) lastKey = 'ArrowRight'
-			break
-		case 'z':
-			movingPace = runningPace
 			break
 	}
 })

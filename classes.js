@@ -20,7 +20,7 @@ class Sprite {
 	}
 
 	draw() {
-		c.drawImage(
+		ctx.drawImage(
 			this.image,
 			(this.frames.val * this.width) / this.scale + 1, // avoid ugly crop
 			0,
@@ -57,7 +57,7 @@ class Boundary {
 	}
 
 	draw() {
-		c.fillStyle = 'rgba(255, 0, 0, 0.0)'
-		c.fillRect(this.position.x, this.position.y, this.width, this.height)
+		ctx.fillStyle = 'rgba(255, 0, 0, 0.2)'
+		ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
 	}
 }
