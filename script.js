@@ -20,7 +20,7 @@ function OnResizeCalled() {
 
 const offset = {
 	x: -1216,
-	y: -642,
+	y: -640,
 }
 
 const walkingPace = 4
@@ -58,6 +58,18 @@ backgroundHealthCenterImage.src = './assets/HealthCenter.png'
 
 const foregroundHealthCenterImage = new Image()
 foregroundHealthCenterImage.src = './assets/ForegroundHealthCenter.png'
+
+const backgroundHouseImage = new Image()
+backgroundHouseImage.src = './assets/House.png'
+
+const foregroundHouseImage = new Image()
+foregroundHouseImage.src = './assets/ForegroundHouse.png'
+
+const backgroundGuildImage = new Image()
+backgroundGuildImage.src = './assets/Guild.png'
+
+const foregroundGuildImage = new Image()
+foregroundGuildImage.src = './assets/ForegroundGuild.png'
 
 const playerUpImage = new Image()
 playerUpImage.src = './assets/boy-up.png'
@@ -100,6 +112,8 @@ const background = new Sprite({
 	sprites: {
 		outside: backgroundOutsideImage,
 		'health center': backgroundHealthCenterImage,
+		house: backgroundHouseImage,
+		guild: backgroundGuildImage,
 	},
 })
 
@@ -112,6 +126,8 @@ const foreground = new Sprite({
 	sprites: {
 		outside: foregroundOutsideImage,
 		'health center': foregroundHealthCenterImage,
+		house: foregroundHouseImage,
+		guild: foregroundGuildImage,
 	},
 })
 
@@ -122,8 +138,6 @@ function getCollisionsMap(map) {
 		collisionsMap.push(collisions.get(map).slice(i, 42 + i))
 	}
 }
-getCollisionsMap('outside')
-// getCollisionsMap('health center')
 
 const doorsMap = []
 for (let i = 0; i < doors.get('outside').length; i += 42) {
@@ -131,14 +145,20 @@ for (let i = 0; i < doors.get('outside').length; i += 42) {
 }
 
 const boundaries = []
-collisionsMap.forEach((row, i) => {
-	row.forEach((symbol, j) => {
-		if (symbol)
-			boundaries.push(
-				new Boundary({ position: { x: j * Boundary.width + offset.x, y: i * Boundary.height + offset.y } })
-			)
+function updateBoundaries(map, offset) {
+	getCollisionsMap(map)
+
+	boundaries.splice(0, boundaries.length)
+	collisionsMap.forEach((row, i) => {
+		row.forEach((symbol, j) => {
+			if (symbol)
+				boundaries.push(
+					new Boundary({ position: { x: j * Boundary.width + offset.x, y: i * Boundary.height + offset.y } })
+				)
+		})
 	})
-})
+}
+updateBoundaries('outside', offset)
 
 const entrances = []
 doorsMap.forEach((row, i) => {
@@ -150,15 +170,17 @@ doorsMap.forEach((row, i) => {
 	})
 })
 
-const movables = [background, ...boundaries, ...entrances, foreground]
+let movables = [background, ...boundaries, ...entrances, foreground]
+function updateMovables() {
+	movables = [background, ...boundaries, ...entrances, foreground]
+}
 
 function objectCollision({ player, object }) {
 	return (
-		// add/minus addition movingPace to avoid border weird behavior
-		player.hitbox.x + player.width > object.position.x + movingPace && // left of wall
-		player.hitbox.x < object.position.x + object.width - movingPace && // right of  wall
-		player.hitbox.y + player.height > object.position.y + movingPace && // bottom of wall
-		player.hitbox.y < object.position.y + object.height - movingPace // top off wall
+		player.hitbox.x + player.width > object.position.x && // left of wall
+		player.hitbox.x < object.position.x + object.width && // right of  wall
+		player.hitbox.y + player.height > object.position.y && // bottom of wall
+		player.hitbox.y < object.position.y + object.height // top off wall
 	)
 }
 
@@ -166,6 +188,10 @@ let futureStep = { x: 0, y: 0 }
 let moving = true
 
 let isOutside = true
+
+// convert door index to building name for easy usage
+const buildingList = ['gym', 'house', 'guild', 'health center']
+let currentBuilding = ''
 
 function animate() {
 	window.requestAnimationFrame(animate)
@@ -184,14 +210,12 @@ function animate() {
 	let isAtDoor = false
 	for (let i = 0; i < entrances.length; i++) {
 		const entrance = entrances[i]
-		if (
-			objectCollision({
-				player: player,
-				object: { ...entrance, position: { x: entrance.position.x, y: entrance.position.y } },
-			}) // predicting next move, movingPace * 2 to make sure player don't move on half way
-		) {
-			console.log('Step before door: ' + i)
-			if (!player.moving) isAtDoor = true
+		// console.log(entrances[1].position.x + ' ' + entrances[1].position.y)
+		// Check if player is in the door activation area (loosen the condition a bit to prevent bug)
+		if (Math.abs(player.hitbox.x - entrance.position.x) <= 4 && Math.abs(player.hitbox.y - entrance.position.y) <= 4) {
+			isAtDoor = true
+			currentBuilding = buildingList[i]
+			console.log('Step before door: ' + currentBuilding)
 			break
 		}
 	}
@@ -214,11 +238,16 @@ function animate() {
 		player.image = player.sprites.up
 
 		if (isAtDoor && isOutside) {
-			console.log('Switch map')
 			isOutside = !isOutside
-			background.image = background.sprites['health center']
-			foreground.image = foreground.sprites['health center']
-			getCollisionsMap('health center')
+			background.image = background.sprites[currentBuilding]
+			foreground.image = foreground.sprites[currentBuilding]
+
+			/* offset = {
+				x: -1216 - 64 * 5,
+				y: -640 - 64 * 8,
+			} */
+			updateBoundaries(currentBuilding, background.position)
+			updateMovables()
 		}
 
 		if (!futureStep.x && !futureStep.y) {
@@ -231,7 +260,7 @@ function animate() {
 			if (
 				objectCollision({
 					player: player,
-					object: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y + movingPace * 2 } },
+					object: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y + movingPace } },
 				})
 			) {
 				moving = false
@@ -252,8 +281,8 @@ function animate() {
 			if (
 				objectCollision({
 					player: player,
-					object: { ...boundary, position: { x: boundary.position.x + movingPace * 2, y: boundary.position.y } },
-				}) // predicting next move, movingPace * 2 to make sure player don't move on half way
+					object: { ...boundary, position: { x: boundary.position.x + movingPace, y: boundary.position.y } },
+				}) // predicting next move by adding movingPace to the direction we will go
 			) {
 				moving = false
 				break
@@ -273,7 +302,7 @@ function animate() {
 			if (
 				objectCollision({
 					player: player,
-					object: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y - movingPace * 2 } },
+					object: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y - movingPace } },
 				})
 			) {
 				moving = false
@@ -282,11 +311,11 @@ function animate() {
 		}
 
 		if (isAtDoor && !isOutside) {
-			console.log('Switch map')
 			isOutside = !isOutside
 			background.image = background.sprites['outside']
 			foreground.image = foreground.sprites['outside']
-			getCollisionsMap('outside')
+			updateBoundaries('outside', background.position)
+			updateMovables()
 		}
 	} else if (keys.ArrowRight.pressed && lastKey === 'ArrowRight') {
 		player.moving = true
@@ -302,7 +331,7 @@ function animate() {
 			if (
 				objectCollision({
 					player: player,
-					object: { ...boundary, position: { x: boundary.position.x - movingPace * 2, y: boundary.position.y } },
+					object: { ...boundary, position: { x: boundary.position.x - movingPace, y: boundary.position.y } },
 				})
 			) {
 				moving = false
