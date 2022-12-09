@@ -71,6 +71,12 @@ backgroundGuildImage.src = './assets/Guild.png'
 const foregroundGuildImage = new Image()
 foregroundGuildImage.src = './assets/ForegroundGuild.png'
 
+const backgroundGymImage = new Image()
+backgroundGymImage.src = './assets/Gym.png'
+
+const foregroundGymImage = new Image()
+foregroundGymImage.src = ''
+
 const playerUpImage = new Image()
 playerUpImage.src = './assets/boy-up.png'
 
@@ -114,6 +120,7 @@ const background = new Sprite({
 		'health center': backgroundHealthCenterImage,
 		house: backgroundHouseImage,
 		guild: backgroundGuildImage,
+		gym: backgroundGymImage,
 	},
 })
 
@@ -128,6 +135,7 @@ const foreground = new Sprite({
 		'health center': foregroundHealthCenterImage,
 		house: foregroundHouseImage,
 		guild: foregroundGuildImage,
+		gym: foregroundGymImage,
 	},
 })
 
