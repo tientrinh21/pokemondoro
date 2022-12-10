@@ -14,7 +14,29 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+		<link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
 		<link href="style.css" rel="stylesheet" />
+
+		<!-- Google Firebase -->
+		<script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-app-compat.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore-compat.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-auth-compat.js"></script>
+
+		<script>
+			const firebaseApp = firebase.initializeApp({
+				/* Firebase config */
+				apiKey: 'AIzaSyB31zwRLimZuv6ZJjLQMt-TbNGo5paR2EA',
+				authDomain: 'poke-doro.firebaseapp.com',
+				projectId: 'poke-doro',
+				storageBucket: 'poke-doro.appspot.com',
+				messagingSenderId: '631393579793',
+				appId: '1:631393579793:web:95d158ffae9e5fd50a92b0',
+			})
+			const db = firebaseApp.firestore()
+			const auth = firebaseApp.auth()
+		</script>
+
+		<script src="app.js" defer></script>
 
 		<!-- JavaScript -->
 		<script
@@ -36,7 +58,39 @@
 		<script src="js/keyHandler.js" defer></script>
 	</head>
 	<body>
-		<div class="game-container">
+		<div class="home">
+			<header>
+				<div>
+					<a href="#"
+						><img
+							src="https://fontmeme.com/permalink/221210/ff51f5de90e3b37a0c0dd4ae4fdc35e7.png"
+							alt="pokemon-font"
+							border="0"
+					/></a>
+				</div>
+				<div>
+					<!-- <button class="nes-btn is-warning">Logout</button> -->
+					<a href="https://github.com/tientrinh21/pokemondoro" target="_blank" class="nes-icon github"></a>
+				</div>
+			</header>
+			<div class="container">
+				<div class="info">
+					<div class="intro nes-container is-rounded is-dark">
+						<p>
+							Pokedoro is a pomadoro method based website app, which is designed to give you motivation to focus on
+							studying through a Pokemon game experience
+						</p>
+					</div>
+					<button class="nes-btn is-primary">Login with Google</button>
+				</div>
+				<div class="image">
+					<img src="assets/hero.png" />
+				</div>
+			</div>
+			<footer>©2022 Tien Trinh - @tientrinh21</footer>
+		</div>
+
+		<div class="game-container hidden">
 			<div id="transition-div"></div>
 			<canvas id="main-canvas"></canvas>
 			<div id="menu" class="hidden">

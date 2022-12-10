@@ -153,7 +153,6 @@ body {
 	background-color: transparent;
 	border: none;
 	border-bottom: solid black 7px;
-	cursor: pointer;
 }
 #menu > div > button:last-child {
 	border: none;
@@ -210,7 +209,6 @@ body {
 	background-color: transparent;
 	border-radius: 10px;
 	padding: 0 1vw;
-	cursor: pointer;
 }
 
 #assign-task #done,
@@ -270,4 +268,91 @@ body {
 
 .hidden {
 	display: none !important;
+}
+
+.home {
+	background-color: black;
+	background-image: url('./assets/credit.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+	background-position: bottom;
+}
+
+header {
+	display: flex;
+	gap: 3em;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding-inline: 5em;
+	padding-block: 0.8em;
+	background-color: #41a691;
+	height: 8vh;
+}
+
+.nes-btn {
+	font-size: 0.75rem;
+}
+
+.github {
+	margin-bottom: 6px;
+}
+
+.container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	background-color: white;
+	height: 85vh;
+	max-width: 80%;
+	margin-inline: auto;
+	background-color: transparent;
+}
+
+.container > div {
+	display: grid;
+	align-items: flex-start;
+	color: white;
+	gap: 2em;
+}
+
+.info {
+	padding-inline: 5em 2em;
+}
+
+.container img {
+	display: block;
+	width: 90%;
+	align-self: center;
+}
+
+.is-dark {
+	background-color: black;
+}
+
+.intro {
+	align-self: flex-end;
+}
+
+footer {
+	background-color: #212529;
+	height: 6vh;
+	padding-block: 1em;
+	text-align: center;
+	color: white;
+	background-color: #41a691;
+}
+
+@media (max-width: 800px) {
+	.container {
+		padding-block: 2em;
+		grid-template-columns: 1fr;
+		height: unset;
+		gap: 3em;
+	}
+
+	.container img {
+		justify-self: center;
+		width: 60%;
+	}
 }
