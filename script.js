@@ -2,10 +2,6 @@
 const canvas = document.querySelector('#main-canvas')
 const ctx = canvas.getContext('2d')
 
-const timer = document.querySelector('#timer')
-const clock = document.querySelector('#clock')
-const quote = document.querySelector('#quote')
-
 canvas.width = 960
 canvas.height = 640
 
@@ -218,6 +214,8 @@ const battle = {
 }
 let isOnBattleZone = false
 
+let openMenu = false
+
 function animate() {
 	const animationId = window.requestAnimationFrame(animate)
 
@@ -232,11 +230,19 @@ function animate() {
 		entrance.draw()
 	})
 
+	if (!isOnBattleZone) openMenu = false
 	if (battle.initiated) {
-		switchAnimate(animationId)
+		switchToAnimateBattle(animationId)
 		return
 	}
 
+	if (openMenu) {
+		player.moving = false
+		return
+		// menu.classList.remove
+	}
+
+	isOnBattleZone = false
 	for (let i = 0; i < battleActivationZones.length; i++) {
 		const zone = battleActivationZones[i]
 		// Check if player is in the battle activation area (loosen the condition a bit to prevent bug)
@@ -376,84 +382,6 @@ function animate() {
 }
 animate()
 
-const battleBackgroundImage = new Image()
-battleBackgroundImage.src = './assets/Battle.png'
-
-const allyPokemonImage = new Image()
-allyPokemonImage.src = './assets/pikachu-ally.png'
-
-const foePokemonImage = new Image()
-foePokemonImage.src = './assets/poliwrath-foe.png'
-
-const battleBackground = new Sprite({
-	position: {
-		x: 0,
-		y: 0,
-	},
-	image: battleBackgroundImage,
-})
-
-const allyPokemon = new Sprite({
-	position: {
-		x: 64 * 5,
-		y: 64 * 5,
-	},
-	image: allyPokemonImage,
-	frames: {
-		max: 2,
-	},
-	scale: 2,
-	isCharacter: true,
-	moving: true,
-})
-
-const foePokemon = new Sprite({
-	position: {
-		x: 64 * 8,
-		y: 64 * 5,
-	},
-	image: foePokemonImage,
-	frames: {
-		max: 2,
-	},
-	scale: 2,
-	isCharacter: true,
-	moving: true,
-})
-
-function switchAnimate(animationId) {
-	// deactivate current animation loop
-	window.cancelAnimationFrame(animationId)
-
-	gsap.to('#transition-div', {
-		opacity: 1,
-		duration: 0.4,
-		onComplete() {
-			animateBattle()
-			timer.classList.remove('hidden')
-			gsap.to('#transition-div', {
-				opacity: 0,
-				duration: 0.4,
-			})
-		},
-	})
-}
-
-let elapsed = 0
-let isAllyTurn = true
-function animateBattle() {
-	window.requestAnimationFrame(animateBattle)
-	battleBackground.draw()
-	allyPokemon.draw()
-	foePokemon.draw()
-
-	elapsed++
-	if (elapsed % 100 === 0 && !isPaused) {
-		isAllyTurn ? allyPokemon.attack(foePokemon) : foePokemon.attack(allyPokemon)
-		isAllyTurn = !isAllyTurn
-	}
-}
-
 let lastKey = 'ArrowUp'
 window.addEventListener('keydown', (e) => {
 	switch (e.key) {
@@ -474,8 +402,30 @@ window.addEventListener('keydown', (e) => {
 			if (!keys[lastKey].pressed && !futureStep.x && !futureStep.y) lastKey = 'ArrowRight'
 			break
 		case ' ':
-			if (battle.initiated) isPaused = !isPaused
-			if (isOnBattleZone) battle.initiated = true
+			if (battle.initiated) {
+				isPaused = !isPaused
+
+				if (numOfInterval === 0) {
+					battle.initiated = false
+					timer.classList.add('hidden')
+					gsap.to('#transition-div', {
+						opacity: 1,
+						duration: 0.4,
+						onComplete() {
+							animate()
+							gsap.to('#transition-div', {
+								opacity: 0,
+								duration: 0.4,
+							})
+						},
+					})
+				}
+			}
+
+			if (isOnBattleZone && !battle.initiated) {
+				openMenu = true
+				menu.classList.remove('hidden')
+			}
 			break
 	}
 })
@@ -496,38 +446,3 @@ window.addEventListener('keyup', (e) => {
 			break
 	}
 })
-
-const time = 1
-let numOfInterval = 1
-const studyQuote = 'Pokemon is battling, so are we!'
-const restQuote = 'Drinking potion'
-let isStudy = true
-let isPaused = true
-function updateClock(time) {
-	let totalTimeInSecond = time * 60
-	isStudy ? (quote.textContent = studyQuote) : (quote.textContent = restQuote)
-
-	setInterval(function () {
-		const minute = Math.floor(totalTimeInSecond / 60).toLocaleString('en-US', {
-			minimumIntegerDigits: 2,
-			useGrouping: false,
-		})
-		const second = (totalTimeInSecond % 60).toLocaleString('en-US', {
-			minimumIntegerDigits: 2,
-			useGrouping: false,
-		})
-
-		if (totalTimeInSecond >= 0) {
-			if (!isPaused) totalTimeInSecond--
-			clock.textContent = minute + ':' + second
-		}
-
-		if (totalTimeInSecond === 0) numOfInterval--
-		if (numOfInterval === 0) {
-			isPaused = true
-			clock.textContent = 'YOU WON!!'
-			quote.textContent = "Let's get ourselve recover ^^"
-		}
-	}, 1000)
-}
-updateClock(1)

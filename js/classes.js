@@ -88,6 +88,12 @@ class Sprite {
 				x: this.position.x,
 			})
 	}
+
+	faint() {
+		gsap.to(this, {
+			opacity: 0,
+		})
+	}
 }
 
 class Boundary {

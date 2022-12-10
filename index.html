@@ -21,18 +21,57 @@
 		<script src="data/collisions.js"></script>
 		<script src="data/doors.js"></script>
 		<script src="data/battleActivation.js"></script>
+		<script src="data/testUser.js"></script>
 		<script src="js/utils.js"></script>
 		<script src="js/classes.js"></script>
 		<script src="script.js" defer></script>
+		<script src="js/battleScene.js" defer></script>
 	</head>
 	<body>
 		<div class="game-container">
 			<div id="transition-div"></div>
 			<canvas id="main-canvas"></canvas>
+			<div id="menu" class="hidden">
+				<div id="options">
+					<button id="do">Do task</button>
+					<button id="assign">Assign task</button>
+					<button id="cancel">Cancel</button>
+				</div>
+				<div id="task-list" class="hidden"></div>
+				<div id="assign-task" class="hidden">
+					<div>
+						<label for="task-name">Task:</label>
+						<input type="text" name="task-name" id="task-name" />
+					</div>
+					<div>
+						<span># ints:</span>
+						<button id="decrease-num-intervals">◀</button>
+						<span id="num-intervals">4</span>
+						<button id="increase-num-intervals">▶</button>
+					</div>
+					<div>
+						<span>Interval:</span>
+						<button id="decrease-interval">◀</button>
+						<span id="interval">5</span>
+						<button id="increase-interval">▶</button>
+					</div>
+					<div>
+						<span>Rest:</span>
+						<button id="decrease-rest">◀</button>
+						<span id="rest">1</span>
+						<button id="increase-rest">▶</button>
+					</div>
+					<div>
+						<button id="done">Done</button>
+						<button id="prev">Cancel</button>
+					</div>
+				</div>
+			</div>
 			<div id="timer" class="hidden">
 				<h1 id="clock"></h1>
 				<p id="quote"></p>
 			</div>
+			<div id="achivement"></div>
 		</div>
 	</body>
 </html>

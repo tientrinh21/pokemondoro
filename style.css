@@ -113,6 +113,9 @@ body {
 	left: 50%;
 	transform: translateX(-50%);
 	background-color: white;
+	display: grid;
+	align-items: center;
+	justify-content: center;
 	padding: 0.5vw 1vw;
 	text-align: center;
 	gap: 0.4vw;
@@ -126,10 +129,101 @@ body {
 	font-size: 1vw;
 }
 
-.hidden {
-	display: none;
+#menu {
+	position: absolute;
+	border: solid black 7px;
+	width: 30%;
+	top: 12%;
+	left: 62%;
+	background-color: white;
+	text-align: center;
 }
 
-/* #main-canvas {
-	outline: hidden;
-} */
+#menu > div {
+	display: grid;
+	align-items: center;
+}
+
+#menu > div > button {
+	display: grid;
+	gap: 0.75vm;
+	height: 4vw;
+	padding: 0.5vw;
+	font-size: 1.3vw;
+	background-color: transparent;
+	border: none;
+	border-bottom: solid black 7px;
+	cursor: pointer;
+}
+#menu > div > button:last-child {
+	border: none;
+}
+
+#menu .task-name {
+	font-size: 1.2vw;
+}
+
+#menu .task-info {
+	font-size: 0.6vw;
+}
+
+@media (max-width: 1000px) {
+	#menu .task-info {
+		font-size: 0.75vw;
+	}
+}
+
+@media (max-width: 800px) {
+	#menu .task-info {
+		display: none;
+	}
+}
+
+#menu > div > button:hover,
+#menu > div > button:focus {
+	background-color: lightgrey;
+}
+
+#assign-task > div,
+#assign-task > form {
+	display: grid;
+	grid-template-columns: 30% repeat(3, auto);
+	align-items: center;
+	justify-content: space-between;
+	gap: 1vw;
+	width: 100%;
+	padding: 0.5vw;
+}
+
+#assign-task label,
+#assign-task span {
+	font-size: 1vw;
+}
+
+#assign-task input {
+	width: 100%;
+	grid-column: 2 / -1;
+	border: none;
+}
+
+#assign-task button {
+	border: none;
+	background-color: transparent;
+	border-radius: 10px;
+	padding: 0 2vw;
+	cursor: pointer;
+}
+
+#assign-task #done,
+#assign-task #prev {
+	grid-column: span 2;
+}
+
+#assign-task button:hover,
+#assign-task button:focus {
+	background-color: lightgrey;
+}
+
+.hidden {
+	display: none !important;
+}
