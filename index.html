@@ -1,18 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title></title>
+		<title>Pokedoro</title>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<!-- CSS -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
 		<link href="style.css" rel="stylesheet" />
+
+		<!-- JavaScript -->
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"
+			integrity="sha512-gmwBmiTVER57N3jYS3LinA9eb8aHrJua5iQD7yqYCKa5x6Jjc7VDVaEA0je0Lu0bP9j7tEjV3+1qUm6loO99Kw=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
 		<script src="data/collisions.js"></script>
 		<script src="data/doors.js"></script>
-		<script src="classes.js"></script>
+		<script src="data/battleActivation.js"></script>
+		<script src="js/utils.js"></script>
+		<script src="js/classes.js"></script>
 		<script src="script.js" defer></script>
 	</head>
 	<body>
 		<div class="game-container">
+			<div id="transition-div"></div>
 			<canvas id="main-canvas"></canvas>
+			<div id="timer" class="hidden">
+				<h1 id="clock"></h1>
+				<p id="quote"></p>
+			</div>
 		</div>
 	</body>
 </html>

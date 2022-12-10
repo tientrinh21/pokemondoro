@@ -2,6 +2,10 @@
 const canvas = document.querySelector('#main-canvas')
 const ctx = canvas.getContext('2d')
 
+const timer = document.querySelector('#timer')
+const clock = document.querySelector('#clock')
+const quote = document.querySelector('#quote')
+
 canvas.width = 960
 canvas.height = 640
 
@@ -152,6 +156,11 @@ for (let i = 0; i < doors.get('outside').length; i += 42) {
 	doorsMap.push(doors.get('outside').slice(i, 42 + i))
 }
 
+const battleZonesMap = []
+for (let i = 0; i < battleActivations.length; i += 42) {
+	battleZonesMap.push(battleActivations.slice(i, 42 + i))
+}
+
 const boundaries = []
 function updateBoundaries(map, offset) {
 	getCollisionsMap(map)
@@ -178,18 +187,21 @@ doorsMap.forEach((row, i) => {
 	})
 })
 
-let movables = [background, ...boundaries, ...entrances, foreground]
-function updateMovables() {
-	movables = [background, ...boundaries, ...entrances, foreground]
-}
+const battleActivationZones = []
+battleZonesMap.forEach((row, i) => {
+	row.forEach((symbol, j) => {
+		if (symbol) {
+			battleActivationZones.push(
+				new Boundary({ position: { x: j * Boundary.width + offset.x, y: i * Boundary.height + offset.y } })
+			)
+		}
+	})
+})
+// console.log(battleActivationZones[0])
 
-function objectCollision({ player, object }) {
-	return (
-		player.hitbox.x + player.width > object.position.x && // left of wall
-		player.hitbox.x < object.position.x + object.width && // right of  wall
-		player.hitbox.y + player.height > object.position.y && // bottom of wall
-		player.hitbox.y < object.position.y + object.height // top off wall
-	)
+let movables = [background, ...boundaries, ...entrances, ...battleActivationZones, foreground]
+function updateMovables() {
+	movables = [background, ...boundaries, ...entrances, ...battleActivationZones, foreground]
 }
 
 let futureStep = { x: 0, y: 0 }
@@ -201,8 +213,13 @@ let isOutside = true
 const buildingList = ['gym', 'house', 'guild', 'health center']
 let currentBuilding = ''
 
+const battle = {
+	initiated: false,
+}
+let isOnBattleZone = false
+
 function animate() {
-	window.requestAnimationFrame(animate)
+	const animationId = window.requestAnimationFrame(animate)
 
 	background.draw()
 	boundaries.forEach((boundary) => {
@@ -215,10 +232,24 @@ function animate() {
 		entrance.draw()
 	})
 
+	if (battle.initiated) {
+		switchAnimate(animationId)
+		return
+	}
+
+	for (let i = 0; i < battleActivationZones.length; i++) {
+		const zone = battleActivationZones[i]
+		// Check if player is in the battle activation area (loosen the condition a bit to prevent bug)
+		if (Math.abs(player.hitbox.x - zone.position.x) <= 4 && Math.abs(player.hitbox.y - zone.position.y) <= 4) {
+			isOnBattleZone = true
+			console.log('Step before battle activation zone')
+			break
+		}
+	}
+
 	let isAtDoor = false
 	for (let i = 0; i < entrances.length; i++) {
 		const entrance = entrances[i]
-		// console.log(entrances[1].position.x + ' ' + entrances[1].position.y)
 		// Check if player is in the door activation area (loosen the condition a bit to prevent bug)
 		if (Math.abs(player.hitbox.x - entrance.position.x) <= 4 && Math.abs(player.hitbox.y - entrance.position.y) <= 4) {
 			isAtDoor = true
@@ -249,11 +280,6 @@ function animate() {
 			isOutside = !isOutside
 			background.image = background.sprites[currentBuilding]
 			foreground.image = foreground.sprites[currentBuilding]
-
-			/* offset = {
-				x: -1216 - 64 * 5,
-				y: -640 - 64 * 8,
-			} */
 			updateBoundaries(currentBuilding, background.position)
 			updateMovables()
 		}
@@ -350,6 +376,84 @@ function animate() {
 }
 animate()
 
+const battleBackgroundImage = new Image()
+battleBackgroundImage.src = './assets/Battle.png'
+
+const allyPokemonImage = new Image()
+allyPokemonImage.src = './assets/pikachu-ally.png'
+
+const foePokemonImage = new Image()
+foePokemonImage.src = './assets/poliwrath-foe.png'
+
+const battleBackground = new Sprite({
+	position: {
+		x: 0,
+		y: 0,
+	},
+	image: battleBackgroundImage,
+})
+
+const allyPokemon = new Sprite({
+	position: {
+		x: 64 * 5,
+		y: 64 * 5,
+	},
+	image: allyPokemonImage,
+	frames: {
+		max: 2,
+	},
+	scale: 2,
+	isCharacter: true,
+	moving: true,
+})
+
+const foePokemon = new Sprite({
+	position: {
+		x: 64 * 8,
+		y: 64 * 5,
+	},
+	image: foePokemonImage,
+	frames: {
+		max: 2,
+	},
+	scale: 2,
+	isCharacter: true,
+	moving: true,
+})
+
+function switchAnimate(animationId) {
+	// deactivate current animation loop
+	window.cancelAnimationFrame(animationId)
+
+	gsap.to('#transition-div', {
+		opacity: 1,
+		duration: 0.4,
+		onComplete() {
+			animateBattle()
+			timer.classList.remove('hidden')
+			gsap.to('#transition-div', {
+				opacity: 0,
+				duration: 0.4,
+			})
+		},
+	})
+}
+
+let elapsed = 0
+let isAllyTurn = true
+function animateBattle() {
+	window.requestAnimationFrame(animateBattle)
+	battleBackground.draw()
+	allyPokemon.draw()
+	foePokemon.draw()
+
+	elapsed++
+	if (elapsed % 100 === 0 && !isPaused) {
+		isAllyTurn ? allyPokemon.attack(foePokemon) : foePokemon.attack(allyPokemon)
+		isAllyTurn = !isAllyTurn
+	}
+}
+
 let lastKey = 'ArrowUp'
 window.addEventListener('keydown', (e) => {
 	switch (e.key) {
@@ -368,6 +472,10 @@ window.addEventListener('keydown', (e) => {
 		case 'ArrowRight':
 			keys.ArrowRight.pressed = true
 			if (!keys[lastKey].pressed && !futureStep.x && !futureStep.y) lastKey = 'ArrowRight'
+			break
+		case ' ':
+			if (battle.initiated) isPaused = !isPaused
+			if (isOnBattleZone) battle.initiated = true
 			break
 	}
 })
@@ -388,3 +496,38 @@ window.addEventListener('keyup', (e) => {
 			break
 	}
 })
+
+const time = 1
+let numOfInterval = 1
+const studyQuote = 'Pokemon is battling, so are we!'
+const restQuote = 'Drinking potion'
+let isStudy = true
+let isPaused = true
+function updateClock(time) {
+	let totalTimeInSecond = time * 60
+	isStudy ? (quote.textContent = studyQuote) : (quote.textContent = restQuote)
+
+	setInterval(function () {
+		const minute = Math.floor(totalTimeInSecond / 60).toLocaleString('en-US', {
+			minimumIntegerDigits: 2,
+			useGrouping: false,
+		})
+		const second = (totalTimeInSecond % 60).toLocaleString('en-US', {
+			minimumIntegerDigits: 2,
+			useGrouping: false,
+		})
+
+		if (totalTimeInSecond >= 0) {
+			if (!isPaused) totalTimeInSecond--
+			clock.textContent = minute + ':' + second
+		}
+
+		if (totalTimeInSecond === 0) numOfInterval--
+		if (numOfInterval === 0) {
+			isPaused = true
+			clock.textContent = 'YOU WON!!'
+			quote.textContent = "Let's get ourselve recover ^^"
+		}
+	}, 1000)
+}
+updateClock(1)

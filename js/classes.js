@@ -1,7 +1,16 @@
 const tileSize = 64
 
 class Sprite {
-	constructor({ position, velocity, image, frames = { max: 1 }, scale = 1, isCharacter = false, sprites }) {
+	constructor({
+		position,
+		velocity,
+		image,
+		frames = { max: 1 },
+		scale = 1,
+		isCharacter = false,
+		sprites,
+		moving = false,
+	}) {
 		this.position = position
 		this.image = image
 		this.frames = { ...frames, val: 0, elapsed: 0 }
@@ -15,11 +24,14 @@ class Sprite {
 				this.hitbox.y = this.position.y + characterSize.height
 			}
 		}
-		this.moving = false
+		this.moving = moving
 		this.sprites = sprites
+		this.opacity = 1
 	}
 
 	draw() {
+		ctx.save()
+		ctx.globalAlpha = this.opacity
 		ctx.drawImage(
 			this.image,
 			(this.frames.val * this.width) / this.scale + 1, // avoid ugly crop
@@ -43,6 +55,38 @@ class Sprite {
 			if (this.frames.val < this.frames.max - 1) this.frames.val++
 			else this.frames.val = 0
 		}
+		ctx.restore()
+	}
+
+	attack(recipient) {
+		const tl = gsap.timeline()
+		const direction = Math.sign(recipient.position.x - this.position.x)
+
+		tl.to(this.position, {
+			x: this.position.x - 20 * direction,
+		})
+			.to(this.position, {
+				x: this.position.x + 30 * direction,
+				duration: 0.1,
+				onComplete() {
+					gsap.to(recipient.position, {
+						x: recipient.position.x + 5 * direction,
+						repeat: 3,
+						yoyo: true,
+						duration: 0.08,
+					})
+
+					gsap.to(recipient, {
+						opacity: 0,
+						repeat: 3,
+						yoyo: true,
+						duration: 0.08,
+					})
+				},
+			})
+			.to(this.position, {
+				x: this.position.x,
+			})
 	}
 }
 
@@ -57,7 +101,7 @@ class Boundary {
 	}
 
 	draw() {
-		ctx.fillStyle = 'rgba(255, 0, 0, 0.2)'
+		ctx.fillStyle = 'rgba(255, 0, 0, 0.0)'
 		ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
 	}
 }
