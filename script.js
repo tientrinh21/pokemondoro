@@ -155,6 +155,11 @@ for (let i = 0; i < battleActivations.length; i += 42) {
 	battleZonesMap.push(battleActivations.slice(i, 42 + i))
 }
 
+const achievementZonesMap = []
+for (let i = 0; i < achievementActivations.length; i += 42) {
+	achievementZonesMap.push(achievementActivations.slice(i, 42 + i))
+}
+
 const boundaries = []
 function updateBoundaries(map, offset) {
 	getCollisionsMap(map)
@@ -192,9 +197,34 @@ battleZonesMap.forEach((row, i) => {
 	})
 })
 
-let movables = [background, ...boundaries, ...entrances, ...battleActivationZones, foreground]
+const achievementActivationZones = []
+achievementZonesMap.forEach((row, i) => {
+	row.forEach((symbol, j) => {
+		if (symbol) {
+			achievementActivationZones.push(
+				new Boundary({ position: { x: j * Boundary.width + offset.x, y: i * Boundary.height + offset.y } })
+			)
+		}
+	})
+})
+
+let movables = [
+	background,
+	...boundaries,
+	...entrances,
+	...battleActivationZones,
+	...achievementActivationZones,
+	foreground,
+]
 function updateMovables() {
-	movables = [background, ...boundaries, ...entrances, ...battleActivationZones, foreground]
+	movables = [
+		background,
+		...boundaries,
+		...entrances,
+		...battleActivationZones,
+		...achievementActivationZones,
+		foreground,
+	]
 }
 
 // Moving variables
@@ -202,7 +232,7 @@ let futureStep = { x: 0, y: 0 }
 let moving = true
 
 const walkingPace = 4
-const runningPace = 8
+// const runningPace = 8
 let movingPace = walkingPace
 
 // Outside or in which building variables
@@ -217,11 +247,14 @@ const battle = {
 
 let isOnBattleZone = false
 let openMenu = false
+let isOnAchievementZone = false
+let openAchievement = false
 
 // Animation
 function animate() {
 	const animationId = window.requestAnimationFrame(animate)
 
+	// draw on canvas
 	background.draw()
 	boundaries.forEach((boundary) => {
 		boundary.draw()
@@ -233,15 +266,22 @@ function animate() {
 		entrance.draw()
 	})
 
+	// conditions for activating battle / changing rooms / open achievement
 	if (!isOnBattleZone) openMenu = false
 	if (battle.initiated) {
 		switchToAnimateBattle(animationId)
-		return
+		return // prevent movement control from executing
 	}
 
 	if (openMenu) {
 		player.moving = false
-		return
+		return // prevent movement control from executing
+	}
+
+	if (!isOnBattleZone) openMenu = false
+	if (openAchievement) {
+		player.moving = false
+		return // prevent movement control from executing
 	}
 
 	isOnBattleZone = false
@@ -250,7 +290,18 @@ function animate() {
 		// Check if player is in the battle activation area (loosen the condition a bit to prevent bug)
 		if (Math.abs(player.hitbox.x - zone.position.x) <= 4 && Math.abs(player.hitbox.y - zone.position.y) <= 4) {
 			isOnBattleZone = true
-			console.log('Step before battle activation zone')
+			// console.log('Step before battle activation zone')
+			break
+		}
+	}
+
+	isOnAchievementZone = false
+	for (let i = 0; i < achievementActivationZones.length; i++) {
+		const zone = achievementActivationZones[i]
+		// Check if player is in the achievement area (loosen the condition a bit to prevent bug)
+		if (Math.abs(player.hitbox.x - zone.position.x) <= 4 && Math.abs(player.hitbox.y - zone.position.y) <= 4) {
+			isOnAchievementZone = true
+			// console.log('Step before achievement zone')
 			break
 		}
 	}
@@ -262,11 +313,12 @@ function animate() {
 		if (Math.abs(player.hitbox.x - entrance.position.x) <= 4 && Math.abs(player.hitbox.y - entrance.position.y) <= 4) {
 			isAtDoor = true
 			currentBuilding = buildingList[i]
-			console.log('Step before door: ' + currentBuilding)
+			// console.log('Step before door: ' + currentBuilding)
 			break
 		}
 	}
 
+	// moving control
 	movables.forEach((moveable) => {
 		if (moving) {
 			moveable.position.x += Math.sign(futureStep.x) * movingPace
@@ -382,5 +434,4 @@ function animate() {
 		}
 	}
 }
-animate()
 animate()

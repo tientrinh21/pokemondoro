@@ -184,8 +184,7 @@ body {
 	background-color: lightgrey;
 }
 
-#assign-task > div,
-#assign-task > form {
+#assign-task > div {
 	display: grid;
 	grid-template-columns: 30% repeat(3, auto);
 	align-items: center;
@@ -210,18 +209,63 @@ body {
 	border: none;
 	background-color: transparent;
 	border-radius: 10px;
-	padding: 0 2vw;
+	padding: 0 1vw;
 	cursor: pointer;
 }
 
 #assign-task #done,
 #assign-task #prev {
+	font-weight: 2vw;
 	grid-column: span 2;
 }
 
 #assign-task button:hover,
 #assign-task button:focus {
 	background-color: lightgrey;
+}
+
+#achievement {
+	position: absolute;
+	border: solid black 7px;
+	width: 60%;
+	/* height: 30%; */
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	text-align: center;
+}
+
+#achievement > div {
+	border-bottom: solid black 7px;
+	display: flex;
+	align-items: center;
+}
+
+#achievement > div:last-child {
+	border: none;
+}
+
+#achievement h1 {
+	font-size: 2.75vw;
+	border-bottom: solid black 7px;
+	padding: 0.5vw 0;
+	background-color: yellow;
+}
+
+#achievement img {
+	max-width: 25%;
+	aspect-ratio: 3/2;
+	object-fit: cover;
+	margin-inline: 2vw 3vw;
+}
+
+#achievement .task-name {
+	font-size: 2vw;
+}
+
+#achievement .task-info {
+	font-size: 1.25vw;
 }
 
 .hidden {

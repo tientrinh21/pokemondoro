@@ -43,4 +43,12 @@ const tasks = [
 		isDone: true,
 		pokemon: 'charmander',
 	},
+	{
+		taskName: 'Coding web',
+		numOfInterval: 4,
+		studyTime: 2,
+		restTime: 2,
+		isDone: true,
+		pokemon: 'squirtle',
+	},
 ]

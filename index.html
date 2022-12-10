@@ -4,6 +4,11 @@
 		<title>Pokedoro</title>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link
+			href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP/ExMT/xMTE/8TExP/ExMT/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////////////////////////xMTE/8TExP/ExMT/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP////////////////8AAAD/AAAA/8TExP/ExMT/xMTE/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//////AAAA/wAAAP8AAAD/xMTE/8TExP8AAAD/AAAA/wAAAP/ExMT/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAA//8AAP//AAAA///////ExMT/AAAA/ysrvf8rK73/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAA/wAA//8AAP//AAD//wAA//8AAAD/AAAA/ysrvf8rK73/Kyu9/ysrvf8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAP8AAP//AAD//wAA//8AAP+uAAD//wAA//8AAP//Kyu9/ysrvf8rK73/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAA//8AAP+u/////wAA/64AAP//AAD//ysrvf8rK73/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAP//AAD//wAA/64AAP//Kyu9/ysrvf8rK73/Kyu9/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAP//Kyu9/ysrvf8rK73/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAD8PwAA8A8AAOAHAADgBwAAwAMAAMADAADAAwAAwAMAAOAHAADgBwAA8A8AAPw/AAD//wAA//8AAA=="
+			rel="icon"
+			type="image/x-icon"
+		/>
 
 		<!-- CSS -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -21,12 +26,14 @@
 		<script src="data/collisions.js"></script>
 		<script src="data/doors.js"></script>
 		<script src="data/battleActivation.js"></script>
+		<script src="data/achievementActivation.js"></script>
 		<script src="data/testUser.js"></script>
 		<script src="js/utils.js"></script>
 		<script src="js/classes.js"></script>
 		<script src="js/battleScene.js" defer></script>
-		<script src="js/keyHandler.js" defer></script>
+		<script src="js/achievement.js" defer></script>
 		<script src="script.js" defer></script>
+		<script src="js/keyHandler.js" defer></script>
 	</head>
 	<body>
 		<div class="game-container">
@@ -42,7 +49,7 @@
 				<div id="assign-task" class="hidden">
 					<div>
 						<label for="task-name">Task:</label>
-						<input type="text" name="task-name" id="task-name" />
+						<input type="text" name="task-name" id="task-name-input" />
 					</div>
 					<div>
 						<span># ints:</span>
@@ -72,7 +79,7 @@
 				<h1 id="clock"></h1>
 				<p id="quote"></p>
 			</div>
-			<div id="achivement"></div>
+			<div id="achievement" class="hidden"></div>
 		</div>
 	</body>
 </html>

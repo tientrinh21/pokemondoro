@@ -1,16 +1,7 @@
 const tileSize = 64
 
 class Sprite {
-	constructor({
-		position,
-		velocity,
-		image,
-		frames = { max: 1 },
-		scale = 1,
-		isCharacter = false,
-		sprites,
-		moving = false,
-	}) {
+	constructor({ position, image, frames = { max: 1 }, scale = 1, isCharacter = false, sprites, moving = false }) {
 		this.position = position
 		this.image = image
 		this.frames = { ...frames, val: 0, elapsed: 0 }
@@ -30,7 +21,7 @@ class Sprite {
 	}
 
 	draw() {
-		ctx.save()
+		// ctx.save()
 		ctx.globalAlpha = this.opacity
 		ctx.drawImage(
 			this.image,
@@ -55,7 +46,7 @@ class Sprite {
 			if (this.frames.val < this.frames.max - 1) this.frames.val++
 			else this.frames.val = 0
 		}
-		ctx.restore()
+		// ctx.restore()
 	}
 
 	attack(recipient) {

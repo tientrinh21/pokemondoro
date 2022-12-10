@@ -71,6 +71,7 @@ function updateClock(time) {
 			clock.textContent = 'YOU WON!!'
 			quote.textContent = "Let's get ourselve recover ^^"
 			tasks[currentTaskIndex].isDone = true
+			isStudy = true
 
 			clearInterval(refreshId)
 			return
@@ -172,7 +173,7 @@ const decreaseRest = document.querySelector('#decrease-rest')
 const increaseRest = document.querySelector('#increase-rest')
 const displayRest = document.querySelector('#rest')
 
-const taskNameInput = document.querySelector('#task-name')
+const taskNameInput = document.querySelector('#task-name-input')
 const doneBtn = document.querySelector('#done')
 const prevBtn = document.querySelector('#prev')
 
@@ -218,7 +219,7 @@ doneBtn.addEventListener('click', () => {
 		isDone: false,
 		pokemon: pokemonList[pokemonIndex],
 	})
-	console.log(tasks)
+	// console.log(tasks)
 
 	assignPanel.classList.add('hidden')
 	optionsPanel.classList.remove('hidden')
@@ -243,6 +244,7 @@ const assignOption = document.querySelector('#assign')
 assignOption.addEventListener('click', () => {
 	optionsPanel.classList.add('hidden')
 	assignPanel.classList.remove('hidden')
+	taskNameInput.focus()
 })
 
 const cancelOption = document.querySelector('#cancel')

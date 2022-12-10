@@ -5,19 +5,25 @@ window.addEventListener('keydown', (e) => {
 		case 'ArrowUp':
 			keys.ArrowUp.pressed = true
 			if (!keys[lastKey].pressed && !futureStep.x && !futureStep.y) lastKey = 'ArrowUp'
+			if (openAchievement) true
 			break
+
 		case 'ArrowLeft':
 			keys.ArrowLeft.pressed = true
 			if (!keys[lastKey].pressed && !futureStep.x && !futureStep.y) lastKey = 'ArrowLeft'
 			break
+
 		case 'ArrowDown':
 			keys.ArrowDown.pressed = true
 			if (!keys[lastKey].pressed && !futureStep.x && !futureStep.y) lastKey = 'ArrowDown'
+			if (openAchievement) true
 			break
+
 		case 'ArrowRight':
 			keys.ArrowRight.pressed = true
 			if (!keys[lastKey].pressed && !futureStep.x && !futureStep.y) lastKey = 'ArrowRight'
 			break
+
 		case ' ':
 			if (battle.initiated) {
 				isPaused = !isPaused
@@ -25,6 +31,9 @@ window.addEventListener('keydown', (e) => {
 				if (numOfInterval === 0) {
 					battle.initiated = false
 					timer.classList.add('hidden')
+					taskListPanel.innerHTML = '' // flush task list on battle end
+					optionsPanel.classList.remove('hidden')
+
 					gsap.to('#transition-div', {
 						opacity: 1,
 						duration: 0.4,
@@ -42,6 +51,17 @@ window.addEventListener('keydown', (e) => {
 			if (isOnBattleZone && !battle.initiated) {
 				openMenu = true
 				menu.classList.remove('hidden')
+			}
+
+			if (isOnAchievementZone) {
+				if (!openAchievement) {
+					openAchievement = true
+					loadAchievementBoard()
+					achievementBoard.classList.remove('hidden')
+				} else {
+					openAchievement = false
+					achievementBoard.classList.add('hidden')
+				}
 			}
 			break
 	}
