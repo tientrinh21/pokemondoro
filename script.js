@@ -1,10 +1,11 @@
-// Variables
+// Canvas variables
 const canvas = document.querySelector('#main-canvas')
 const ctx = canvas.getContext('2d')
 
 canvas.width = 960
 canvas.height = 640
 
+// Handle resizeing window and help responsitivity
 let ratio = Math.min(window.innerWidth / 960, window.innerHeight / 640)
 
 canvas.style.width = canvas.width * ratio + 'px'
@@ -18,14 +19,11 @@ function OnResizeCalled() {
 	canvas.style.height = canvas.height * ratio + 'px'
 }
 
+// Constant for consistent reusing
 const offset = {
 	x: -1216,
 	y: -640,
 }
-
-const walkingPace = 4
-const runningPace = 8
-let movingPace = walkingPace
 
 const keys = {
 	ArrowUp: {
@@ -193,29 +191,34 @@ battleZonesMap.forEach((row, i) => {
 		}
 	})
 })
-// console.log(battleActivationZones[0])
 
 let movables = [background, ...boundaries, ...entrances, ...battleActivationZones, foreground]
 function updateMovables() {
 	movables = [background, ...boundaries, ...entrances, ...battleActivationZones, foreground]
 }
 
+// Moving variables
 let futureStep = { x: 0, y: 0 }
 let moving = true
 
-let isOutside = true
+const walkingPace = 4
+const runningPace = 8
+let movingPace = walkingPace
 
-// convert door index to building name for easy usage
-const buildingList = ['gym', 'house', 'guild', 'health center']
+// Outside or in which building variables
+let isOutside = true
+const buildingList = ['gym', 'house', 'guild', 'health center'] // convert door index to building name for easy usage
 let currentBuilding = ''
 
+// Battle variables
 const battle = {
 	initiated: false,
 }
-let isOnBattleZone = false
 
+let isOnBattleZone = false
 let openMenu = false
 
+// Animation
 function animate() {
 	const animationId = window.requestAnimationFrame(animate)
 
@@ -239,7 +242,6 @@ function animate() {
 	if (openMenu) {
 		player.moving = false
 		return
-		// menu.classList.remove
 	}
 
 	isOnBattleZone = false
@@ -381,68 +383,4 @@ function animate() {
 	}
 }
 animate()
-
-let lastKey = 'ArrowUp'
-window.addEventListener('keydown', (e) => {
-	switch (e.key) {
-		case 'ArrowUp':
-			keys.ArrowUp.pressed = true
-			if (!keys[lastKey].pressed && !futureStep.x && !futureStep.y) lastKey = 'ArrowUp'
-			break
-		case 'ArrowLeft':
-			keys.ArrowLeft.pressed = true
-			if (!keys[lastKey].pressed && !futureStep.x && !futureStep.y) lastKey = 'ArrowLeft'
-			break
-		case 'ArrowDown':
-			keys.ArrowDown.pressed = true
-			if (!keys[lastKey].pressed && !futureStep.x && !futureStep.y) lastKey = 'ArrowDown'
-			break
-		case 'ArrowRight':
-			keys.ArrowRight.pressed = true
-			if (!keys[lastKey].pressed && !futureStep.x && !futureStep.y) lastKey = 'ArrowRight'
-			break
-		case ' ':
-			if (battle.initiated) {
-				isPaused = !isPaused
-
-				if (numOfInterval === 0) {
-					battle.initiated = false
-					timer.classList.add('hidden')
-					gsap.to('#transition-div', {
-						opacity: 1,
-						duration: 0.4,
-						onComplete() {
-							animate()
-							gsap.to('#transition-div', {
-								opacity: 0,
-								duration: 0.4,
-							})
-						},
-					})
-				}
-			}
-
-			if (isOnBattleZone && !battle.initiated) {
-				openMenu = true
-				menu.classList.remove('hidden')
-			}
-			break
-	}
-})
-
-window.addEventListener('keyup', (e) => {
-	switch (e.key) {
-		case 'ArrowUp':
-			keys.ArrowUp.pressed = false
-			break
-		case 'ArrowLeft':
-			keys.ArrowLeft.pressed = false
-			break
-		case 'ArrowDown':
-			keys.ArrowDown.pressed = false
-			break
-		case 'ArrowRight':
-			keys.ArrowRight.pressed = false
-			break
-	}
-})
+animate()
