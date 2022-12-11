@@ -24,8 +24,8 @@ auth.onAuthStateChanged((user) => {
 		// signed in
 		whenSignedIn.hidden = false
 		whenSignedOut.hidden = true
-		// userDetails.innerHTML = `Hello ${user.displayName}! User ID: ${user.uid}`
-		userDetails.innerHTML = `${user.displayName} - ${user.uid}`
+		userDetails.innerHTML = `${user.displayName}`
+		// userDetails.innerHTML = `${user.displayName} - ${user.uid}`
 	} else {
 		// not signed in
 		whenSignedIn.hidden = true
