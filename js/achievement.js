@@ -1,8 +1,8 @@
 // Achievement DOM
 const achievementBoard = document.querySelector('#achievement')
-const noAchievementsDisplay = 8
 
-function loadAchievementBoard() {
+// Local data
+/* function loadAchievementBoard() {
 	achievementBoard.innerHTML = '<h1>Achievement</h1>'
 	for (let i = 0; i < tasks.length; i++) {
 		// Don't display done task
@@ -19,4 +19,4 @@ function loadAchievementBoard() {
 
 		achievementBoard.append(doneTask)
 	}
-}
+} */

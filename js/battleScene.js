@@ -59,7 +59,7 @@ const restQuote = 'Drinking potion'
 let isStudy = true
 let isPaused = true
 let totalTimeInSecond = 0
-let currentTaskIndex = -1
+let currentTaskId = ''
 
 function updateClock(time) {
 	let totalTimeInSecond = time * 60
@@ -70,7 +70,8 @@ function updateClock(time) {
 
 			clock.textContent = 'YOU WON!!'
 			quote.textContent = "Let's get ourselve recover ^^"
-			tasks[currentTaskIndex].isDone = true
+			// tasks[currentTaskIndex].isDone = true
+			unsubscribe = tasksRef.doc(currentTaskId).update({ isDone: true })
 			isStudy = true
 
 			clearInterval(refreshId)
@@ -114,12 +115,12 @@ const taskListPanel = document.querySelector('#task-list')
 const assignPanel = document.querySelector('#assign-task')
 
 const doOption = document.querySelector('#do')
-doOption.addEventListener('click', () => {
+/* doOption.onclick = () => {
 	optionsPanel.classList.add('hidden')
 
+	// Load undone tasks
 	for (let i = 0; i < tasks.length; i++) {
-		// Don't display done task
-		if (tasks[i].isDone) continue
+		if (tasks[i].isDone) continue // don't display done task
 
 		const taskBtn = document.createElement('button')
 		taskBtn.innerHTML = `
@@ -128,7 +129,7 @@ doOption.addEventListener('click', () => {
 		`
 
 		taskListPanel.append(taskBtn)
-		taskBtn.addEventListener('click', () => {
+		taskBtn.onclick = () => {
 			battle.initiated = true
 			numOfInterval = tasks[i].numOfInterval
 			studyTime = tasks[i].studyTime
@@ -139,20 +140,20 @@ doOption.addEventListener('click', () => {
 			updateClock(studyTime)
 
 			menu.classList.add('hidden')
-		})
+		}
 	}
 
 	const cancelBtn = document.createElement('button')
 	cancelBtn.innerHTML = `<h2 class="task-name prev">Cancel</h2>`
 	taskListPanel.append(cancelBtn)
-	cancelBtn.addEventListener('click', () => {
+	cancelBtn.onclick = () => {
 		taskListPanel.innerHTML = ''
 		taskListPanel.classList.add('hidden')
 		optionsPanel.classList.remove('hidden')
-	})
+	}
 
 	taskListPanel.classList.remove('hidden')
-})
+} */
 
 const possibleNoIntervals = [1, 2, 3, 4, 5, 6, 7, 8]
 const possibleInterval = [1, 2, 5, 10, 15, 25, 45, 60]
@@ -177,33 +178,36 @@ const taskNameInput = document.querySelector('#task-name-input')
 const doneBtn = document.querySelector('#done')
 const prevBtn = document.querySelector('#prev')
 
-decreaseNoIntervals.addEventListener('click', () => {
+decreaseNoIntervals.onclick = () => {
 	currentNoIntervalsIndex - 1 >= 0
 		? (currentNoIntervalsIndex = currentNoIntervalsIndex - 1)
 		: (currentNoIntervalsIndex = 7)
 	displayNoIntervals.textContent = possibleNoIntervals[currentNoIntervalsIndex]
-})
-increaseNoIntervals.addEventListener('click', () => {
-	displayNoIntervals.textContent = possibleNoIntervals[++currentNoIntervalsIndex % 8]
-})
+}
+increaseNoIntervals.onclick = () => {
+	currentNoIntervalsIndex = (currentNoIntervalsIndex + 1) % 8
+	displayNoIntervals.textContent = possibleNoIntervals[currentNoIntervalsIndex]
+}
 
-decreaseInterval.addEventListener('click', () => {
+decreaseInterval.onclick = () => {
 	currentIntervalIndex - 1 >= 0 ? (currentIntervalIndex = currentIntervalIndex - 1) : (currentIntervalIndex = 7)
-	displayInterval.textContent = possibleInterval[currentIntervalIndex % 8]
-})
-increaseInterval.addEventListener('click', () => {
-	displayInterval.textContent = possibleInterval[++currentIntervalIndex % 8]
-})
+	displayInterval.textContent = possibleInterval[currentIntervalIndex]
+}
+increaseInterval.onclick = () => {
+	currentIntervalIndex = (currentIntervalIndex + 1) % 8
+	displayInterval.textContent = possibleInterval[currentIntervalIndex]
+}
 
-decreaseRest.addEventListener('click', () => {
+decreaseRest.onclick = () => {
 	currentRestIndex - 1 >= 0 ? (currentRestIndex = currentRestIndex - 1) : (currentRestIndex = 7)
 	displayRest.textContent = possibleRest[currentRestIndex]
-})
-increaseRest.addEventListener('click', () => {
-	displayRest.textContent = possibleRest[++currentRestIndex % 8]
-})
+}
+increaseRest.onclick = () => {
+	currentRestIndex = (currentRestIndex + 1) % 8
+	displayRest.textContent = possibleRest[currentRestIndex]
+}
 
-doneBtn.addEventListener('click', () => {
+/* doneBtn.onclick = () => {
 	if (!taskNameInput.value) {
 		alert("No task name! Let's find something to do together ^^")
 		return
@@ -223,9 +227,9 @@ doneBtn.addEventListener('click', () => {
 
 	assignPanel.classList.add('hidden')
 	optionsPanel.classList.remove('hidden')
-})
+} */
 
-prevBtn.addEventListener('click', () => {
+prevBtn.onclick = () => {
 	// Reset to default
 	taskNameInput.value = ''
 	currentNoIntervalsIndex = 3
@@ -238,20 +242,20 @@ prevBtn.addEventListener('click', () => {
 
 	assignPanel.classList.add('hidden')
 	optionsPanel.classList.remove('hidden')
-})
+}
 
 const assignOption = document.querySelector('#assign')
-assignOption.addEventListener('click', () => {
+assignOption.onclick = () => {
 	optionsPanel.classList.add('hidden')
 	assignPanel.classList.remove('hidden')
 	taskNameInput.focus()
-})
+}
 
 const cancelOption = document.querySelector('#cancel')
-cancel.addEventListener('click', () => {
+cancel.onclick = () => {
 	menu.classList.add('hidden')
 	openMenu = false
-})
+}
 
 // Animation functions
 function switchToAnimateBattle(animationId) {

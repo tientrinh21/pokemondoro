@@ -53,7 +53,7 @@ window.addEventListener('keydown', (e) => {
 				menu.classList.remove('hidden')
 			}
 
-			if (isOnAchievementZone) {
+			/* if (isOnAchievementZone) {
 				if (!openAchievement) {
 					openAchievement = true
 					loadAchievementBoard()
@@ -62,7 +62,7 @@ window.addEventListener('keydown', (e) => {
 					openAchievement = false
 					achievementBoard.classList.add('hidden')
 				}
-			}
+			} */
 			break
 	}
 })

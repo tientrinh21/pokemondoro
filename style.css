@@ -362,6 +362,7 @@ header {
 footer {
 	background-color: #212529;
 	height: 6vh;
+	font-size: 0.75rem;
 	padding-block: 1em;
 	text-align: center;
 	color: white;
@@ -369,6 +370,10 @@ footer {
 }
 
 @media (max-width: 900px) {
+	header {
+		padding-inline: 3em;
+	}
+
 	.container {
 		padding-block: 2em;
 		grid-template-columns: 1fr;
@@ -379,5 +384,16 @@ footer {
 	.container img {
 		justify-self: center;
 		width: 60%;
+	}
+
+	.info {
+		padding-inline: 2em 2em;
+	}
+
+	#signOutBtn {
+		right: 1%;
+		width: 12em;
+		font-size: 0.25rem;
+		scale: 0.75;
 	}
 }
