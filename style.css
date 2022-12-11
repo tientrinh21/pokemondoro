@@ -78,6 +78,14 @@ select {
 }
 
 /* ------------------- */
+/* Utility					   */
+/* ------------------- */
+
+.hidden {
+	display: none !important;
+}
+
+/* ------------------- */
 /* Layout						   */
 /* ------------------- */
 
@@ -86,6 +94,7 @@ body {
 	font-family: 'Press Start 2P';
 }
 
+/* When signed in */
 .game-container {
 	position: fixed;
 	top: 50%;
@@ -266,10 +275,26 @@ body {
 	font-size: 1.25vw;
 }
 
-.hidden {
-	display: none !important;
+#userDetails {
+	position: absolute;
+	background-color: rgba(255, 255, 255, 0.5);
+	padding: 0.1vw 0.2vw;
+	border-radius: 5px;
+	color: black;
+	top: 2%;
+	right: 2%;
+	font-size: 1vw;
 }
 
+#signOutBtn {
+	position: fixed;
+	top: 6%;
+	right: 2%;
+	width: 6vw;
+	font-size: 0.75vw;
+}
+
+/* When signed out */
 .home {
 	background-color: black;
 	background-image: url('./assets/credit.png');
@@ -343,7 +368,7 @@ footer {
 	background-color: #41a691;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
 	.container {
 		padding-block: 2em;
 		grid-template-columns: 1fr;

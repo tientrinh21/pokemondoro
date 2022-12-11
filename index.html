@@ -32,8 +32,8 @@
 				messagingSenderId: '631393579793',
 				appId: '1:631393579793:web:95d158ffae9e5fd50a92b0',
 			})
-			const db = firebaseApp.firestore()
-			const auth = firebaseApp.auth()
+			/* const db = firebaseApp.firestore()
+			const auth = firebaseApp.auth() */
 		</script>
 
 		<script src="app.js" defer></script>
@@ -58,82 +58,87 @@
 		<script src="js/keyHandler.js" defer></script>
 	</head>
 	<body>
-		<div class="home">
-			<header>
-				<div>
-					<a href="#"
-						><img
-							src="https://fontmeme.com/permalink/221210/ff51f5de90e3b37a0c0dd4ae4fdc35e7.png"
-							alt="pokemon-font"
-							border="0"
-					/></a>
-				</div>
-				<div>
-					<!-- <button class="nes-btn is-warning">Logout</button> -->
-					<a href="https://github.com/tientrinh21/pokemondoro" target="_blank" class="nes-icon github"></a>
-				</div>
-			</header>
-			<div class="container">
-				<div class="info">
-					<div class="intro nes-container is-rounded is-dark">
-						<p>
-							Pokedoro is a pomadoro method based website app, which is designed to give you motivation to focus on
-							studying through a Pokemon game experience
-						</p>
+		<section id="whenSignedOut">
+			<div class="home">
+				<header>
+					<div>
+						<a href="#"
+							><img
+								src="https://fontmeme.com/permalink/221210/ff51f5de90e3b37a0c0dd4ae4fdc35e7.png"
+								alt="pokemon-font"
+								border="0"
+						/></a>
 					</div>
-					<button class="nes-btn is-primary">Login with Google</button>
+					<div>
+						<a href="https://github.com/tientrinh21/pokemondoro" target="_blank" class="nes-icon github"></a>
+					</div>
+				</header>
+				<div class="container">
+					<div class="info">
+						<div class="intro nes-container is-rounded is-dark">
+							<p>
+								Pokedoro is a pomadoro method based website app, which is designed to give you motivation to focus on
+								studying through a Pokemon game experience
+							</p>
+						</div>
+						<button id="signInBtn" class="nes-btn is-primary">Login with Google</button>
+					</div>
+					<div class="image">
+						<img src="assets/hero.png" />
+					</div>
 				</div>
-				<div class="image">
-					<img src="assets/hero.png" />
-				</div>
+				<footer>©2022 Tien Trinh - @tientrinh21</footer>
 			</div>
-			<footer>©2022 Tien Trinh - @tientrinh21</footer>
-		</div>
+		</section>
 
-		<div class="game-container hidden">
-			<div id="transition-div"></div>
-			<canvas id="main-canvas"></canvas>
-			<div id="menu" class="hidden">
-				<div id="options">
-					<button id="do">Do task</button>
-					<button id="assign">Assign task</button>
-					<button id="cancel">Cancel</button>
+		<section id="whenSignedIn" hidden="true">
+			<div class="game-container">
+				<div id="userDetails"></div>
+				<button id="signOutBtn" type="button" class="nes-btn is-warning">Logout</button>
+				<div id="transition-div"></div>
+				<canvas id="main-canvas"></canvas>
+				<div id="menu" class="hidden">
+					<div id="options">
+						<button id="do">Do task</button>
+						<button id="assign">Assign task</button>
+						<button id="cancel">Cancel</button>
+					</div>
+					<div id="task-list" class="hidden"></div>
+					<div id="assign-task" class="hidden">
+						<div>
+							<label for="task-name">Task:</label>
+							<input type="text" name="task-name" id="task-name-input" />
+						</div>
+						<div>
+							<span># ints:</span>
+							<button id="decrease-num-intervals">◀</button>
+							<span id="num-intervals">4</span>
+							<button id="increase-num-intervals">▶</button>
+						</div>
+						<div>
+							<span>Interval:</span>
+							<button id="decrease-interval">◀</button>
+							<span id="interval">5</span>
+							<button id="increase-interval">▶</button>
+						</div>
+						<div>
+							<span>Rest:</span>
+							<button id="decrease-rest">◀</button>
+							<span id="rest">1</span>
+							<button id="increase-rest">▶</button>
+						</div>
+						<div>
+							<button id="done">Done</button>
+							<button id="prev">Cancel</button>
+						</div>
+					</div>
 				</div>
-				<div id="task-list" class="hidden"></div>
-				<div id="assign-task" class="hidden">
-					<div>
-						<label for="task-name">Task:</label>
-						<input type="text" name="task-name" id="task-name-input" />
-					</div>
-					<div>
-						<span># ints:</span>
-						<button id="decrease-num-intervals">◀</button>
-						<span id="num-intervals">4</span>
-						<button id="increase-num-intervals">▶</button>
-					</div>
-					<div>
-						<span>Interval:</span>
-						<button id="decrease-interval">◀</button>
-						<span id="interval">5</span>
-						<button id="increase-interval">▶</button>
-					</div>
-					<div>
-						<span>Rest:</span>
-						<button id="decrease-rest">◀</button>
-						<span id="rest">1</span>
-						<button id="increase-rest">▶</button>
-					</div>
-					<div>
-						<button id="done">Done</button>
-						<button id="prev">Cancel</button>
-					</div>
+				<div id="timer" class="hidden">
+					<h1 id="clock"></h1>
+					<p id="quote"></p>
 				</div>
+				<div id="achievement" class="hidden"></div>
 			</div>
-			<div id="timer" class="hidden">
-				<h1 id="clock"></h1>
-				<p id="quote"></p>
-			</div>
-			<div id="achievement" class="hidden"></div>
-		</div>
+		</section>
 	</body>
 </html>
