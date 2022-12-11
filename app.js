@@ -25,7 +25,6 @@ auth.onAuthStateChanged((user) => {
 		whenSignedIn.hidden = false
 		whenSignedOut.hidden = true
 		userDetails.innerHTML = `${user.displayName}`
-		// userDetails.innerHTML = `${user.displayName} - ${user.uid}`
 	} else {
 		// not signed in
 		whenSignedIn.hidden = true
