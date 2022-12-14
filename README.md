@@ -26,3 +26,7 @@ The site is host on https://poke-doro.web.app/
 - Vanilla JavaScript
 - [NES.css](https://nostalgic-css.github.io/NES.css/)
 - Firebase
+
+## Author
+
+- Website - [Tien Trinh](https://tientrinh.netlify.app/)
