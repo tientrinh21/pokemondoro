@@ -17,4 +17,12 @@ New pokemon will appear randomly, which help students to study more to discover 
 
 All the pokemon that we have met, and the time we have spent on studying to win against that pokemon
 
+## Demo
+
 The site is host on https://poke-doro.web.app/
+
+## Built with
+
+- Vanilla JavaScript
+- [NES.css](https://nostalgic-css.github.io/NES.css/)
+- Firebase
