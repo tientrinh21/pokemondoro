@@ -6,7 +6,7 @@
 *,
 *::before,
 *::after {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 /* Remove default margin */
@@ -20,37 +20,37 @@ figure,
 blockquote,
 dl,
 dd {
-	margin: 0;
+  margin: 0;
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
 ul[role='list'],
 ol[role='list'] {
-	list-style: none;
+  list-style: none;
 }
 
 /* Set core root defaults */
 html:focus-within {
-	scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 /* Set core body defaults */
 body {
-	min-height: 100vh;
-	text-rendering: optimizeSpeed;
-	line-height: 1.5;
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
 }
 
 /* A elements that don't have a class get default styles */
 a:not([class]) {
-	text-decoration-skip-ink: auto;
+  text-decoration-skip-ink: auto;
 }
 
 /* Make images easier to work with */
 img,
 picture {
-	max-width: 100%;
-	display: block;
+  max-width: 100%;
+  display: block;
 }
 
 /* Inherit fonts for inputs and buttons */
@@ -58,23 +58,23 @@ input,
 button,
 textarea,
 select {
-	font: inherit;
+  font: inherit;
 }
 
 /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
 @media (prefers-reduced-motion: reduce) {
-	html:focus-within {
-		scroll-behavior: auto;
-	}
+  html:focus-within {
+    scroll-behavior: auto;
+  }
 
-	*,
-	*::before,
-	*::after {
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
-		scroll-behavior: auto !important;
-	}
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ------------------- */
@@ -82,7 +82,7 @@ select {
 /* ------------------- */
 
 .hidden {
-	display: none !important;
+  display: none !important;
 }
 
 /* ------------------- */
@@ -90,310 +90,310 @@ select {
 /* ------------------- */
 
 body {
-	background-color: black;
-	font-family: 'Press Start 2P';
+  background-color: black;
+  font-family: 'Press Start 2P';
 }
 
 /* When signed in */
 .game-container {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #transition-div {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: black;
-	opacity: 0;
-	pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  opacity: 0;
+  pointer-events: none;
 }
 
 #timer {
-	position: absolute;
-	aspect-ratio: 3/1;
-	border: solid black 7px;
-	height: 17%;
-	bottom: 2%;
-	left: 50%;
-	transform: translateX(-50%);
-	background-color: white;
-	display: grid;
-	align-items: center;
-	justify-content: center;
-	padding: 0.5vw 1vw;
-	text-align: center;
-	gap: 0.4vw;
+  position: absolute;
+  aspect-ratio: 3/1;
+  border: solid black 7px;
+  height: 17%;
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5vw 1vw;
+  text-align: center;
+  gap: 0.4vw;
 }
 
 #timer > #clock {
-	font-size: 2.2vw;
+  font-size: 2.2vw;
 }
 
 #timer > #quote {
-	font-size: 1vw;
+  font-size: 1vw;
 }
 
 #menu {
-	position: absolute;
-	border: solid black 7px;
-	width: 30%;
-	top: 12%;
-	left: 62%;
-	background-color: white;
-	text-align: center;
+  position: absolute;
+  border: solid black 7px;
+  width: 30%;
+  top: 12%;
+  left: 62%;
+  background-color: white;
+  text-align: center;
 }
 
 #menu > div {
-	display: grid;
-	align-items: center;
+  display: grid;
+  align-items: center;
 }
 
 #menu > div > button {
-	display: grid;
-	gap: 0.75vm;
-	height: 4vw;
-	padding: 0.5vw;
-	font-size: 1.3vw;
-	background-color: transparent;
-	border: none;
-	border-bottom: solid black 7px;
+  display: grid;
+  gap: 0.75vm;
+  height: 4vw;
+  padding: 0.5vw;
+  font-size: 1.3vw;
+  background-color: transparent;
+  border: none;
+  border-bottom: solid black 7px;
 }
 #menu > div > button:last-child {
-	border: none;
+  border: none;
 }
 
 #menu .task-name {
-	font-size: 1.2vw;
+  font-size: 1.2vw;
 }
 
 #menu .task-info {
-	font-size: 0.6vw;
+  font-size: 0.6vw;
 }
 
 @media (max-width: 1000px) {
-	#menu .task-info {
-		font-size: 0.75vw;
-	}
+  #menu .task-info {
+    font-size: 0.75vw;
+  }
 }
 
 @media (max-width: 800px) {
-	#menu .task-info {
-		display: none;
-	}
+  #menu .task-info {
+    display: none;
+  }
 }
 
 #menu > div > button:hover,
 #menu > div > button:focus {
-	background-color: lightgrey;
+  background-color: lightgrey;
 }
 
 #assign-task > div {
-	display: grid;
-	grid-template-columns: 30% repeat(3, auto);
-	align-items: center;
-	justify-content: space-between;
-	gap: 1vw;
-	width: 100%;
-	padding: 0.5vw;
+  display: grid;
+  grid-template-columns: 30% repeat(3, auto);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1vw;
+  width: 100%;
+  padding: 0.5vw;
 }
 
 #assign-task label,
 #assign-task span {
-	font-size: 1vw;
+  font-size: 1vw;
 }
 
 #assign-task input {
-	width: 100%;
-	grid-column: 2 / -1;
-	border: none;
+  width: 100%;
+  grid-column: 2 / -1;
+  border: none;
 }
 
 #assign-task button {
-	border: none;
-	background-color: transparent;
-	border-radius: 10px;
-	padding: 0 1vw;
+  border: none;
+  background-color: transparent;
+  border-radius: 10px;
+  padding: 0 1vw;
 }
 
 #assign-task #done,
 #assign-task #prev {
-	font-weight: 2vw;
-	grid-column: span 2;
+  font-weight: 2vw;
+  grid-column: span 2;
 }
 
 #assign-task button:hover,
 #assign-task button:focus {
-	background-color: lightgrey;
+  background-color: lightgrey;
 }
 
 #achievement {
-	position: absolute;
-	border: solid black 7px;
-	width: 60%;
-	/* height: 30%; */
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background-color: white;
-	text-align: center;
+  position: absolute;
+  border: solid black 7px;
+  width: 60%;
+  /* height: 30%; */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  text-align: center;
 }
 
 #achievement > div {
-	border-bottom: solid black 7px;
-	display: flex;
-	align-items: center;
+  border-bottom: solid black 7px;
+  display: flex;
+  align-items: center;
 }
 
 #achievement > div:last-child {
-	border: none;
+  border: none;
 }
 
 #achievement h1 {
-	font-size: 2.75vw;
-	border-bottom: solid black 7px;
-	padding: 0.5vw 0;
-	background-color: yellow;
+  font-size: 2.75vw;
+  border-bottom: solid black 7px;
+  padding: 0.5vw 0;
+  background-color: yellow;
 }
 
 #achievement img {
-	max-width: 25%;
-	aspect-ratio: 3/2;
-	object-fit: cover;
-	margin-inline: 2vw 3vw;
+  max-width: 25%;
+  aspect-ratio: 3/2;
+  object-fit: cover;
+  margin-inline: 2vw 3vw;
 }
 
 #achievement .task-name {
-	font-size: 2vw;
+  font-size: 2vw;
 }
 
 #achievement .task-info {
-	font-size: 1.25vw;
+  font-size: 1.25vw;
 }
 
 #userDetails {
-	position: absolute;
-	background-color: rgba(255, 255, 255, 0.5);
-	padding: 0.1vw 0.2vw;
-	border-radius: 5px;
-	color: black;
-	top: 2%;
-	right: 2%;
-	font-size: 1vw;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 0.1vw 0.2vw;
+  border-radius: 5px;
+  color: black;
+  top: 2%;
+  right: 2%;
+  font-size: 1vw;
 }
 
 #signOutBtn {
-	position: fixed;
-	top: 6%;
-	right: 2%;
-	width: 6vw;
-	font-size: 0.75vw;
+  position: fixed;
+  top: 6%;
+  right: 2%;
+  width: 6vw;
+  font-size: 0.75vw;
 }
 
 /* When signed out */
 .home {
-	background-color: black;
-	background-image: url('./assets/credit.png');
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-attachment: fixed;
-	background-position: bottom;
+  background-color: black;
+  background-image: url('./assets/credit.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: bottom;
 }
 
 header {
-	display: flex;
-	gap: 3em;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
-	padding-inline: 5em;
-	padding-block: 0.8em;
-	background-color: #41a691;
-	height: 8vh;
+  display: flex;
+  gap: 3em;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 5em;
+  padding-block: 0.8em;
+  background-color: #41a691;
+  height: 8vh;
 }
 
 .nes-btn {
-	font-size: 0.75rem;
+  font-size: 0.75rem;
 }
 
 .github {
-	margin-bottom: 6px;
+  margin-bottom: 6px;
 }
 
 .container {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	background-color: white;
-	height: 85vh;
-	max-width: 80%;
-	margin-inline: auto;
-	background-color: transparent;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: white;
+  height: 85vh;
+  max-width: 80%;
+  margin-inline: auto;
+  background-color: transparent;
 }
 
 .container > div {
-	display: grid;
-	align-items: flex-start;
-	color: white;
-	gap: 2em;
+  display: grid;
+  align-items: flex-start;
+  color: white;
+  gap: 2em;
 }
 
 .info {
-	padding-inline: 5em 2em;
+  padding-inline: 5em 2em;
 }
 
 .container img {
-	display: block;
-	width: 90%;
-	align-self: center;
+  display: block;
+  width: 90%;
+  align-self: center;
 }
 
 .is-dark {
-	background-color: black;
+  background-color: black;
 }
 
 .intro {
-	align-self: flex-end;
+  align-self: flex-end;
 }
 
 footer {
-	background-color: #212529;
-	height: 6vh;
-	font-size: 0.75rem;
-	padding-block: 1em;
-	text-align: center;
-	color: white;
-	background-color: #41a691;
+  background-color: #212529;
+  height: 6vh;
+  font-size: 0.75rem;
+  padding-block: 1em;
+  text-align: center;
+  color: white;
+  background-color: #41a691;
 }
 
 @media (max-width: 900px) {
-	header {
-		padding-inline: 3em;
-	}
+  header {
+    padding-inline: 3em;
+  }
 
-	.container {
-		padding-block: 2em;
-		grid-template-columns: 1fr;
-		height: unset;
-		gap: 3em;
-	}
+  .container {
+    padding-block: 2em;
+    grid-template-columns: 1fr;
+    height: unset;
+    gap: 3em;
+  }
 
-	.container img {
-		justify-self: center;
-		width: 60%;
-	}
+  .container img {
+    justify-self: center;
+    width: 60%;
+  }
 
-	.info {
-		padding-inline: 2em 2em;
-	}
+  .info {
+    padding-inline: 2em 2em;
+  }
 
-	#signOutBtn {
-		right: 1%;
-		width: 12em;
-		font-size: 0.25rem;
-		scale: 0.75;
-	}
+  #signOutBtn {
+    right: 1%;
+    width: 12em;
+    font-size: 0.25rem;
+    scale: 0.75;
+  }
 }
