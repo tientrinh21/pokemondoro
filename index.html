@@ -1,144 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Pokedoro</title>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link
-			href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP/ExMT/xMTE/8TExP/ExMT/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////////////////////////xMTE/8TExP/ExMT/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP////////////////8AAAD/AAAA/8TExP/ExMT/xMTE/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//////AAAA/wAAAP8AAAD/xMTE/8TExP8AAAD/AAAA/wAAAP/ExMT/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAA//8AAP//AAAA///////ExMT/AAAA/ysrvf8rK73/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAA/wAA//8AAP//AAD//wAA//8AAAD/AAAA/ysrvf8rK73/Kyu9/ysrvf8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAP8AAP//AAD//wAA//8AAP+uAAD//wAA//8AAP//Kyu9/ysrvf8rK73/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAA//8AAP+u/////wAA/64AAP//AAD//ysrvf8rK73/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAP//AAD//wAA/64AAP//Kyu9/ysrvf8rK73/Kyu9/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAP//Kyu9/ysrvf8rK73/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAD8PwAA8A8AAOAHAADgBwAAwAMAAMADAADAAwAAwAMAAOAHAADgBwAA8A8AAPw/AAD//wAA//8AAA=="
-			rel="icon"
-			type="image/x-icon"
-		/>
+  <head>
+    <title>Pokedoro</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP/ExMT/xMTE/8TExP/ExMT/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////////////////////////xMTE/8TExP/ExMT/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP////////////////8AAAD/AAAA/8TExP/ExMT/xMTE/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//////AAAA/wAAAP8AAAD/xMTE/8TExP8AAAD/AAAA/wAAAP/ExMT/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAA//8AAP//AAAA///////ExMT/AAAA/ysrvf8rK73/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAA/wAA//8AAP//AAD//wAA//8AAAD/AAAA/ysrvf8rK73/Kyu9/ysrvf8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAP8AAP//AAD//wAA//8AAP+uAAD//wAA//8AAP//Kyu9/ysrvf8rK73/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAA//8AAP+u/////wAA/64AAP//AAD//ysrvf8rK73/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAP//AAD//wAA/64AAP//Kyu9/ysrvf8rK73/Kyu9/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAP//Kyu9/ysrvf8rK73/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAD8PwAA8A8AAOAHAADgBwAAwAMAAMADAADAAwAAwAMAAOAHAADgBwAA8A8AAPw/AAD//wAA//8AAA=="
+      rel="icon"
+      type="image/x-icon"
+    />
 
-		<!-- CSS -->
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-		<link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
-		<link href="style.css" rel="stylesheet" />
+    <!-- CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css"
+      rel="stylesheet"
+    />
+    <link href="style.css" rel="stylesheet" />
 
-		<!-- Google Firebase -->
-		<script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-app-compat.js"></script>
-		<script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore-compat.js"></script>
-		<script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-auth-compat.js"></script>
+    <!-- Google Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-auth-compat.js"></script>
 
-		<script>
-			const firebaseApp = firebase.initializeApp({
-				/* Firebase config */
-				apiKey: 'AIzaSyB31zwRLimZuv6ZJjLQMt-TbNGo5paR2EA',
-				authDomain: 'poke-doro.firebaseapp.com',
-				projectId: 'poke-doro',
-				storageBucket: 'poke-doro.appspot.com',
-				messagingSenderId: '631393579793',
-				appId: '1:631393579793:web:95d158ffae9e5fd50a92b0',
-			})
-			/* const db = firebaseApp.firestore()
+    <script>
+      const firebaseApp = firebase.initializeApp({
+        /* Firebase config */
+        apiKey: 'AIzaSyB31zwRLimZuv6ZJjLQMt-TbNGo5paR2EA',
+        authDomain: 'poke-doro.firebaseapp.com',
+        projectId: 'poke-doro',
+        storageBucket: 'poke-doro.appspot.com',
+        messagingSenderId: '631393579793',
+        appId: '1:631393579793:web:95d158ffae9e5fd50a92b0',
+      })
+      /* const db = firebaseApp.firestore()
 			const auth = firebaseApp.auth() */
-		</script>
+    </script>
 
-		<script src="app.js" defer></script>
+    <script src="app.js" defer></script>
 
-		<!-- JavaScript -->
-		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"
-			integrity="sha512-gmwBmiTVER57N3jYS3LinA9eb8aHrJua5iQD7yqYCKa5x6Jjc7VDVaEA0je0Lu0bP9j7tEjV3+1qUm6loO99Kw=="
-			crossorigin="anonymous"
-			referrerpolicy="no-referrer"
-		></script>
-		<script src="data/collisions.js"></script>
-		<script src="data/doors.js"></script>
-		<script src="data/battleActivation.js"></script>
-		<script src="data/achievementActivation.js"></script>
-		<script src="data/testUser.js"></script>
-		<script src="js/utils.js"></script>
-		<script src="js/classes.js"></script>
-		<script src="js/battleScene.js" defer></script>
-		<script src="js/achievement.js" defer></script>
-		<script src="script.js" defer></script>
-		<script src="js/keyHandler.js" defer></script>
-	</head>
-	<body>
-		<section id="whenSignedOut">
-			<div class="home">
-				<header>
-					<div>
-						<a href="#"
-							><img
-								src="https://fontmeme.com/permalink/221210/ff51f5de90e3b37a0c0dd4ae4fdc35e7.png"
-								alt="pokemon-font"
-								border="0"
-						/></a>
-					</div>
-					<div>
-						<a href="https://github.com/tientrinh21/pokemondoro" target="_blank" class="nes-icon github"></a>
-					</div>
-				</header>
-				<div class="container">
-					<div class="info">
-						<div class="intro nes-container is-rounded is-dark">
-							<p>
-								Pokedoro is a pomadoro method based website app, which is designed to give you motivation to focus on
-								studying through a Pokemon game experience
-							</p>
-						</div>
-						<button id="signInBtn" class="nes-btn is-primary">Login with Google</button>
-					</div>
-					<div class="image">
-						<img src="assets/hero.png" />
-					</div>
-				</div>
-				<footer>©2022 Tien Trinh - @tientrinh21</footer>
-			</div>
-		</section>
+    <!-- JavaScript -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"
+      integrity="sha512-gmwBmiTVER57N3jYS3LinA9eb8aHrJua5iQD7yqYCKa5x6Jjc7VDVaEA0je0Lu0bP9j7tEjV3+1qUm6loO99Kw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="data/collisions.js"></script>
+    <script src="data/doors.js"></script>
+    <script src="data/battleActivation.js"></script>
+    <script src="data/achievementActivation.js"></script>
+    <script src="data/testUser.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/classes.js"></script>
+    <script src="js/battleScene.js" defer></script>
+    <script src="js/achievement.js" defer></script>
+    <script src="script.js" defer></script>
+    <script src="js/keyHandler.js" defer></script>
+  </head>
+  <body>
+    <section id="whenSignedOut">
+      <div class="home">
+        <header>
+          <div>
+            <a href="#"
+              ><img
+                src="https://fontmeme.com/permalink/221210/ff51f5de90e3b37a0c0dd4ae4fdc35e7.png"
+                alt="pokemon-font"
+                border="0"
+            /></a>
+          </div>
+          <div>
+            <a
+              href="https://github.com/tientrinh21/pokemondoro"
+              target="_blank"
+              class="nes-icon github"
+            ></a>
+          </div>
+        </header>
+        <div class="container">
+          <div class="info">
+            <div class="intro nes-container is-rounded is-dark">
+              <p>
+                Pokedoro is a pomadoro method based website app, which is
+                designed to give you motivation to focus on studying through a
+                Pokemon game experience
+              </p>
+            </div>
+            <button id="signInBtn" class="nes-btn is-primary">
+              Login with Google
+            </button>
+          </div>
+          <div class="image">
+            <img src="assets/hero.png" />
+          </div>
+        </div>
+        <footer>©2022 Tien Trinh - @tientrinh21</footer>
+      </div>
+    </section>
 
-		<section id="whenSignedIn" hidden="true">
-			<div class="game-container">
-				<div id="userDetails"></div>
-				<button id="signOutBtn" type="button" class="nes-btn is-warning">Logout</button>
-				<div id="transition-div"></div>
-				<canvas id="main-canvas"></canvas>
-				<div id="menu" class="hidden">
-					<div id="options">
-						<button id="do">Do task</button>
-						<button id="assign">Assign task</button>
-						<button id="cancel">Cancel</button>
-					</div>
-					<div id="task-list" class="hidden"></div>
-					<div id="assign-task" class="hidden">
-						<div>
-							<label for="task-name">Task:</label>
-							<input type="text" name="task-name" id="task-name-input" />
-						</div>
-						<div>
-							<span># ints:</span>
-							<button id="decrease-num-intervals">◀</button>
-							<span id="num-intervals">4</span>
-							<button id="increase-num-intervals">▶</button>
-						</div>
-						<div>
-							<span>Interval:</span>
-							<button id="decrease-interval">◀</button>
-							<span id="interval">5</span>
-							<button id="increase-interval">▶</button>
-						</div>
-						<div>
-							<span>Rest:</span>
-							<button id="decrease-rest">◀</button>
-							<span id="rest">1</span>
-							<button id="increase-rest">▶</button>
-						</div>
-						<div>
-							<button id="done">Done</button>
-							<button id="prev">Cancel</button>
-						</div>
-					</div>
-				</div>
-				<div id="timer" class="hidden">
-					<h1 id="clock"></h1>
-					<p id="quote"></p>
-				</div>
-				<div id="achievement" class="hidden"></div>
-			</div>
-		</section>
-	</body>
+    <section id="whenSignedIn" hidden="true">
+      <div class="game-container">
+        <div id="userDetails"></div>
+        <button id="signOutBtn" type="button" class="nes-btn is-warning">
+          Logout
+        </button>
+        <div id="transition-div"></div>
+        <canvas id="main-canvas"></canvas>
+        <div id="menu" class="hidden">
+          <div id="options">
+            <button id="do">Do task</button>
+            <button id="assign">Assign task</button>
+            <button id="cancel">Cancel</button>
+          </div>
+          <div id="task-list" class="hidden"></div>
+          <div id="assign-task" class="hidden">
+            <div>
+              <label for="task-name">Task:</label>
+              <input type="text" name="task-name" id="task-name-input" />
+            </div>
+            <div>
+              <span># ints:</span>
+              <button id="decrease-num-intervals">◀</button>
+              <span id="num-intervals">4</span>
+              <button id="increase-num-intervals">▶</button>
+            </div>
+            <div>
+              <span>Interval:</span>
+              <button id="decrease-interval">◀</button>
+              <span id="interval">5</span>
+              <button id="increase-interval">▶</button>
+            </div>
+            <div>
+              <span>Rest:</span>
+              <button id="decrease-rest">◀</button>
+              <span id="rest">1</span>
+              <button id="increase-rest">▶</button>
+            </div>
+            <div>
+              <button id="done">Done</button>
+              <button id="prev">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div id="timer" class="hidden">
+          <h1 id="clock"></h1>
+          <p id="quote"></p>
+        </div>
+        <div id="achievement" class="hidden"></div>
+      </div>
+    </section>
+  </body>
 </html>
