@@ -16,7 +16,7 @@ However, a normal todo app would be a bit boring to give motivation for students
 
 ## Demo
 
-The site is host on https://poke-doro.web.app/ (Register / Login with Google account)
+The site is host on https://poke-doro.web.app/ by [Netlify](https://www.netlify.com/) (Register / Login with Google account)
 
 ## Built with
 
