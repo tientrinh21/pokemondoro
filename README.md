@@ -20,9 +20,9 @@ The site is host on https://poke-doro.web.app/ (Register / Login with Google acc
 
 ## Built with
 
-- Vanilla JavaScript - Game engine (built from scratch, inspired from [Chris courses](https://chriscourses.com/)
-- [NES.css](https://nostalgic-css.github.io/NES.css/) - Homepage UI
-- [Firebase](https://firebase.google.com/) - Database, Auth
+- **Vanilla JavaScript** - Game engine (built from scratch, inspired from [Chris courses](https://chriscourses.com/)
+- **[NES.css](https://nostalgic-css.github.io/NES.css/)** - Homepage UI
+- **[Firebase](https://firebase.google.com/)** - Database, Auth
 
 ## Features
 
@@ -31,9 +31,9 @@ The site is host on https://poke-doro.web.app/ (Register / Login with Google acc
 User can travel around the custom Pallet Town as if they were playing a Pokemon game with arrow keys - `Up`, `Left`, `Right`, `Down`.
 
 There are three main locations to travel to:
-  - Home: starting position
-  - Traning center: managing tasks, battling to do tasks
-  - Laboratory: achievements, tasks done
+  - **Home:** starting position
+  - **Traning center:** managing tasks, battling to do tasks
+  - **Laboratory:** achievements, tasks done
 
 ### Battling / Studying
 
